@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+
+<h1 th:text="${title}">Default Title</h1>
+
+<form method="post" th:object="${product}">
+    <div class="form-group">
+        <label th:for="name">Name</label>
+        <input th:field="*{name}" />
+    </div>
+    <div class="form-group">
+        <label th:for="entryDate">Date</label>
+        <input th:field="*{entryDate}" />
+    </div>
+    <div class="form-group">
+        <label th:for="expiration">Expiration</label>
+        <input th:field="*{expiration}" />
+    </div>
+    <input type="submit" value="Add Product" />
+</form>
+
+</body>
+</html>
