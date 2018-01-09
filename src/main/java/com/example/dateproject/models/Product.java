@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.Month;
 
 @Entity
 public class Product {
@@ -21,20 +22,25 @@ public class Product {
     private LocalDate entryDate;
 
     @NotNull
-    private long expiration;
+    private long expirationFrame;
 
     private LocalDate expirationDate;
 
-    @ManyToOne
-    private Category category;
+    public Product() {}
 
-    public Product(String name, LocalDate entryDate, long expiration) {
+    public Product(String name, LocalDate entryDate, long expirationFrame) {
         this.name = name;
         this.entryDate = entryDate;
-        this.expiration = expiration;
+        this.expirationFrame = expirationFrame;
     }
 
-    public Product() {}
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -52,23 +58,19 @@ public class Product {
         this.entryDate = entryDate;
     }
 
-    public long getExpiration() {
-        return expiration;
+    public long getExpirationFrame() {
+        return expirationFrame;
     }
 
-    public void setExpiration(long expiration) {
-        this.expiration = expiration;
+    public void setExpirationFrame(long expirationFrame) {
+        this.expirationFrame = expirationFrame;
     }
 
     public LocalDate getExpirationDate() {
-        return entryDate.plusMonths(expiration);
+        return expirationDate;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setExpirationDate(LocalDate expirationDate, long expirationFrame) {
+        this.expirationDate = entryDate.plusMonths(expirationFrame);
     }
 }
