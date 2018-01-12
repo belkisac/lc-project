@@ -18,8 +18,8 @@
 
     <tr th:each="product : ${products}">
         <td th:text="${product.name}"></td>
-        <td th:text="${product.entryDate}"></td>
-        <td th:text="${#temporals.format(product.expirationDate, 'MM dd yyyy)}"></td>
+        <td th:text="${#temporals.format(product.entryDate, 'MM-dd-yyyy')}"></td>
+        <td th:text="${#temporals.format(product.expirationDate, 'MM-dd-yyyy')}"></td>
     </tr>
 
 </table>
