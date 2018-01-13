@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.Month;
 
@@ -16,6 +17,7 @@ public class Product {
     private int id;
 
     @NotNull
+    @Size(min = 1, message = "Field cannot be empty")
     private String name;
 
     @NotNull
@@ -25,6 +27,9 @@ public class Product {
     private long expirationFrame;
 
     private LocalDate expirationDate;
+
+    @ManyToOne
+    private Category category;
 
     public Product() {}
 
@@ -72,5 +77,13 @@ public class Product {
 
     public void setExpirationDate(LocalDate expirationDate, long expirationFrame) {
         this.expirationDate = entryDate.plusMonths(expirationFrame);
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

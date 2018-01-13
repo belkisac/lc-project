@@ -1,23 +1,28 @@
 package com.example.dateproject.models.forms;
 
+import com.example.dateproject.models.Category;
+
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.Month;
 
 public class AddProductForm {
 
     @NotNull
+    @Size(min = 1, message = "Please enter a name")
     private String name;
 
     @NotNull
     private int year;
 
     @NotNull
+    @Size(min = 1, message = "Please enter a month")
     private String month;
 
-    @NotNull
+    @NotNull(message = "Field cannot be empty")
     private int day;
 
-    @NotNull
+    @NotNull(message = "Field cannot be empty")
     private long expirationTime;
 
     public AddProductForm() {}

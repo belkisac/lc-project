@@ -28,6 +28,13 @@
         <input class="form-control" th:field="*{expirationTime}" />
         <span th:errors="*{expirationTime}"></span>
     </div>
+    <div class="form-group">
+        <select name="categoryId">
+            <option th:each="category : ${categories}"
+                    th:text="${category.name}"
+                    th:value="${category.id}"></option>
+        </select>
+    </div>
     <input type="submit" value="Add Product" />
 
 

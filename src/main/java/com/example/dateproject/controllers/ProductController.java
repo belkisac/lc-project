@@ -1,6 +1,8 @@
 package com.example.dateproject.controllers;
 
+import com.example.dateproject.models.Category;
 import com.example.dateproject.models.Product;
+import com.example.dateproject.models.data.CategoryDao;
 import com.example.dateproject.models.data.ProductDao;
 import com.example.dateproject.models.forms.AddProductForm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class ProductController {
     @Autowired
     private ProductDao productDao;
 
+    @Autowired
+    private CategoryDao categoryDao;
+
 
     @RequestMapping(value = "")
     public String index(Model model) {
@@ -35,12 +40,13 @@ public class ProductController {
     public String displayAddForm(Model model) {
         model.addAttribute("title", "Add Product");
         model.addAttribute("form", new AddProductForm());
+        model.addAttribute("categories", categoryDao.findAll());
         return "product/add";
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String processAddForm(@ModelAttribute @Valid AddProductForm form,
-                                 Errors errors, Model model) {
+                                 Errors errors, @RequestParam int categoryId, Model model) {
          if (errors.hasErrors()) {
              model.addAttribute("title", "Add Product");
              return "product/add";
@@ -51,6 +57,8 @@ public class ProductController {
         long expirationFrame = form.getExpirationTime();
         Product newProduct = new Product(name, entryDate, expirationFrame);
         newProduct.setExpirationDate(entryDate, expirationFrame);
+        Category thisCategory = categoryDao.findOne(categoryId);
+        newProduct.setCategory(thisCategory);
         productDao.save(newProduct);
         return "redirect:";
     }

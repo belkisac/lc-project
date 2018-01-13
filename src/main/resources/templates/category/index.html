@@ -3,18 +3,31 @@
 <head th:replace="fragments :: head"></head>
 
 <body class="container">
+<h1 th:text="${title}">Default Title</h1>
+
 <p th:unless="${categories} and ${categories.size()}">No categories</p>
 
-<table class="table">
+<!--<table class="table">
 
     <tr>
         <th>Name</th>
+        <th>Products</th>
     </tr>
 
     <tr th:each="category : ${categories}">
         <td th:text="${category.name}"></td>
+        <td th:each="product : ${category.products}" th:text="${product.name}"></td>
     </tr>
 
+</table>-->
+
+<table class="table">
+    <tr>
+        <th th:each="category : ${categories}" th:text="${category.name}"></th>
+    </tr>
+    <tr>
+       <td th:each="category : ${categories}" th:text="${category.purpose}"></td>
+    </tr>
 </table>
 
 </body>
