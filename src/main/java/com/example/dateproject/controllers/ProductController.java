@@ -18,6 +18,7 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.Month;
 
+@RequestMapping(value = "product")
 @Controller
 public class ProductController {
 
@@ -40,25 +41,27 @@ public class ProductController {
     public String displayAddForm(Model model) {
         model.addAttribute("title", "Add Product");
         model.addAttribute("form", new AddProductForm());
+        model.addAttribute(new Product());
         model.addAttribute("categories", categoryDao.findAll());
         return "product/add";
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public String processAddForm(@ModelAttribute @Valid AddProductForm form,
-                                 Errors errors, @RequestParam int categoryId, Model model) {
-         if (errors.hasErrors()) {
-             model.addAttribute("title", "Add Product");
-             return "product/add";
-         }
+    public String processAddForm(@ModelAttribute @Valid Product newProduct,
+                                 @ModelAttribute @Valid AddProductForm newForm,
+                                 @RequestParam int categoryId,
+                                 Errors errors, Model model) {
+        if(errors.hasErrors()) {
+            model.addAttribute("form", new AddProductForm());
+            model.addAttribute(new Product());
+            model.addAttribute("categories", categoryDao.findAll());
+            return "product/add";
+        }
 
-        String name = form.getName();
-        LocalDate entryDate = LocalDate.of(form.getYear(), Month.valueOf(form.getMonth().toUpperCase()), form.getDay());
-        long expirationFrame = form.getExpirationTime();
-        Product newProduct = new Product(name, entryDate, expirationFrame);
-        newProduct.setExpirationDate(entryDate, expirationFrame);
         Category thisCategory = categoryDao.findOne(categoryId);
         newProduct.setCategory(thisCategory);
+        LocalDate entryDate = LocalDate.of(newForm.getYear(), Month.valueOf(newForm.getMonth().toUpperCase()), newForm.getDay());
+        newProduct.setExpirationDate(entryDate, newProduct.getExpirationFrame());
         productDao.save(newProduct);
         return "redirect:";
     }
