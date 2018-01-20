@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+
+<form method="post" th:object="${category}">
+    <div class="form-group">
+        <input type="hidden" th:value="*{id}" name="categoryId" />
+        <label th:for="name">Name</label>
+        <input class="form-control" th:field="*{name}" />
+        <span th:errors="*{name}"></span>
+    </div>
+    <div class="form-group">
+        <ul>
+            <li th:each="product : ${products}">
+                <input type="checkbox" th:field="*{products}" th:value="${product.name}" />
+            </li>
+        </ul>
+    </div>
+    <input type="submit" value="Edit Category" />
+</form>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+<h1 th:text="${title}">Default Title</h1>
+<p th:unless="${products} and ${products.size()}">No products</p>
+
+<table class="table">
+
+    <tr>
+        <th>Name</th>
+        <th>Entry Date</th>
+        <th>Expiration Date</th>
+    </tr>
+
+    <tr th:each="product : ${products}">
+        <td th:text="${product.name}"></td>
+        <td th:text="${#temporals.format(product.entryDate, 'MM-dd-yyyy')}"></td>
+        <td th:text="${#temporals.format(product.expirationDate, 'MM-dd-yyyy')}"></td>
+    </tr>
+
+</table>
+
+
+</body>
+</html>
