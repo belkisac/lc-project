@@ -55,25 +55,14 @@ public class ProductController {
         newProduct.setCategory(categoryDao.findOne(categoryId));
         newProduct.setEntryDate(newProduct.getYear(), newProduct.getMonth(), newProduct.getDay());
         newProduct.setExpirationFrame(expirationFrame);
-        String expiration = newProduct.getExpirationFrame();
-        //set expirationDate based on expirationFrame from form
-        //TODO: is there a simpler way to do this?
-        //TODO: explore putting this in the setter for expirationDate
-        if(expiration.equals("days")) {
-            newProduct.setExpirationDate(newProduct.getEntryDate().plusDays(newProduct.getExpirationTime()));
-        } else if(expiration.equals("weeks")) {
-            newProduct.setExpirationDate(newProduct.getEntryDate().plusWeeks(newProduct.getExpirationTime()));
-        } else {
-            newProduct.setExpirationDate(newProduct.getEntryDate().plusMonths(newProduct.getExpirationTime()));
-        }
-
+        newProduct.setExpirationDate(newProduct.getEntryDate(), newProduct.getExpirationFrame(), newProduct.getExpirationTime());
         productDao.save(newProduct);
         return "redirect:";
     }
 
     @RequestMapping(value = "edit/{productId}", method = RequestMethod.GET)
     public String displayEditProduct(@PathVariable int productId, Model model) {
-        model.addAttribute("title", "Edit" + productDao.findOne(productId).getName());
+        model.addAttribute("title", "Edit " + productDao.findOne(productId).getName());
         model.addAttribute(productDao.findOne(productId));
         model.addAttribute("categories", categoryDao.findAll());
         return "product/edit";
@@ -81,5 +70,19 @@ public class ProductController {
 
     //TODO: process edit form
     @RequestMapping(value = "edit/{productId}", method = RequestMethod.POST)
-    public String processEditProduct(Model model, String name)
+    public String processEditProduct(Model model, int productId, String name, Integer month, Integer year, Integer day,
+                                     Long expirationTime, String expirationFrame, int categoryId) {
+        Product editProduct = productDao.findOne(productId);
+        editProduct.setName(name);
+        editProduct.setMonth(month);
+        editProduct.setDay(day);
+        editProduct.setYear(year);
+        editProduct.setExpirationTime(expirationTime);
+        editProduct.setExpirationFrame(expirationFrame);
+        editProduct.setEntryDate(year, month, day);
+        editProduct.setExpirationDate(editProduct.getEntryDate(), editProduct.getExpirationFrame(), editProduct.getExpirationTime());
+        editProduct.setCategory(categoryDao.findOne(categoryId));
+        productDao.save(editProduct);
+        return "redirect:/product";
+    }
 }

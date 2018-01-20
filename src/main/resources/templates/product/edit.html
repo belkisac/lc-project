@@ -8,6 +8,7 @@
 
 <form method="post" th:object="${product}">
     <div class="form-group">
+        <input type="hidden" th:value="*{id}" name="productId" />
         <label th:for="name">Name</label>
         <input th:field="*{name}"/>
         <span th:errors="*{name}"></span>
