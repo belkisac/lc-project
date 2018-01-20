@@ -20,8 +20,6 @@ public class Category {
     @Size(min = 1, message = "Field cannot be empty")
     private String name;
 
-    private String purpose;
-
     @OneToMany
     @JoinColumn(name = "category_id")
     private List<Product> products = new ArrayList<>();
@@ -42,14 +40,6 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPurpose() {
-        return purpose;
-    }
-
-    public void setPurpose(String purpose) {
-        this.purpose = purpose;
     }
 
     public List<Product> getProducts() {
