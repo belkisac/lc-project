@@ -120,8 +120,14 @@ public class Product {
         return expirationDate;
     }
 
-    public void setExpirationDate(LocalDate expirationDate) {
-        this.expirationDate = expirationDate;
+    public void setExpirationDate(LocalDate entryDate, String expirationFrame, Long expirationTime) {
+        if(expirationFrame.equals("days")) {
+            expirationDate = entryDate.plusDays(expirationTime);
+        } else if(expirationFrame.equals("weeks")) {
+            expirationDate = entryDate.plusWeeks(expirationTime);
+        } else {
+            expirationDate = entryDate.plusMonths(expirationTime);
+        }
     }
 
     public Category getCategory() {
