@@ -4,15 +4,11 @@ import com.example.dateproject.models.Category;
 import com.example.dateproject.models.Product;
 import com.example.dateproject.models.data.CategoryDao;
 import com.example.dateproject.models.data.ProductDao;
-import com.example.dateproject.models.forms.AddProductForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -62,6 +58,7 @@ public class ProductController {
         String expiration = newProduct.getExpirationFrame();
         //set expirationDate based on expirationFrame from form
         //TODO: is there a simpler way to do this?
+        //TODO: explore putting this in the setter for expirationDate
         if(expiration.equals("days")) {
             newProduct.setExpirationDate(newProduct.getEntryDate().plusDays(newProduct.getExpirationTime()));
         } else if(expiration.equals("weeks")) {
@@ -73,4 +70,16 @@ public class ProductController {
         productDao.save(newProduct);
         return "redirect:";
     }
+
+    @RequestMapping(value = "edit/{productId}", method = RequestMethod.GET)
+    public String displayEditProduct(@PathVariable int productId, Model model) {
+        model.addAttribute("title", "Edit" + productDao.findOne(productId).getName());
+        model.addAttribute(productDao.findOne(productId));
+        model.addAttribute("categories", categoryDao.findAll());
+        return "product/edit";
+    }
+
+    //TODO: process edit form
+    @RequestMapping(value = "edit/{productId}", method = RequestMethod.POST)
+    public String processEditProduct(Model model, String name)
 }
