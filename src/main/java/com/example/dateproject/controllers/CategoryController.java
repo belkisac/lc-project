@@ -1,6 +1,7 @@
 package com.example.dateproject.controllers;
 
 import com.example.dateproject.models.Category;
+import com.example.dateproject.models.Product;
 import com.example.dateproject.models.data.CategoryDao;
 import com.example.dateproject.models.data.ProductDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("category")
@@ -24,6 +27,7 @@ public class CategoryController {
     @Autowired
     private ProductDao productDao;
 
+    //display list of all categories
     @RequestMapping(value = "")
     public String index(Model model) {
         model.addAttribute("title", "Categories");
@@ -31,6 +35,7 @@ public class CategoryController {
         return "category/index";
     }
 
+    //form to add category to db (name only, no products)
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String displayAddCategory(Model model) {
         model.addAttribute(new Category());
@@ -49,6 +54,7 @@ public class CategoryController {
         return "redirect:";
     }
 
+    //view categories and all products in it
     @RequestMapping(value = "{categoryId}", method = RequestMethod.GET)
     public String viewCategory(@PathVariable int categoryId, Model model) {
         model.addAttribute("title", categoryDao.findOne(categoryId).getName());
@@ -57,19 +63,23 @@ public class CategoryController {
     }
 
     //TODO: allow products to be added to categories in bulk
-    /*@RequestMapping(value = "products", method = RequestMethod.GET)
-    public String processAllProducts(Model model) {
-        model.addAttribute()
-    }*/
-
-    /*@RequestMapping(value = "edit/{categoryId}", method = RequestMethod.GET)
-    public String displayEditCategory(Model model, @PathVariable int categoryId) {
-        model.addAttribute("title", "Edit " + categoryDao.findOne(categoryId).getName());
-        model.addAttribute(categoryDao.findOne(categoryId));
-        model.addAttribute("products", categoryDao.findOne(categoryId).getProducts());
-        return "category/edit";
+    //for now it just returns index so i can see if the link works
+    @RequestMapping(value = "{categoryId}/add")
+    public String displayAddToCategory(Model model, @PathVariable int categoryId) {
+        //find products that are not already in that category and remove them
+        //so user doesn't see redundant information
+        ArrayList<Product> allProducts = (ArrayList<Product>) productDao.findAll();
+        List<Product> categoryProducts = categoryDao.findOne(categoryId).getProducts();
+        for (Product product : categoryProducts) {
+            if (allProducts.contains(product)) {
+                allProducts.remove(product);
+            }
+        }
+        model.addAttribute("title", "Add Products to " + categoryDao.findOne(categoryId).getName());
+        model.addAttribute("products", allProducts);
+        return "category/add-products";
     }
 
-    //TODO: process edit category form*/
+    //TODO: edit category form*/
 
 }

@@ -24,7 +24,6 @@ public class ProductController {
     @Autowired
     private CategoryDao categoryDao;
 
-    //display list of all products
     @RequestMapping(value = "")
     public String index(Model model) {
         model.addAttribute("products", productDao.findAll());
@@ -33,7 +32,6 @@ public class ProductController {
         return "product/index";
     }
 
-    //displays add product form to add one at a time
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String displayAddForm(Model model) {
         model.addAttribute("title", "Add a Product");
@@ -42,7 +40,6 @@ public class ProductController {
         return "product/add";
     }
 
-    //processes add form and adds product to db
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String processAddForm(@ModelAttribute @Valid Product newProduct, Errors errors,
                                  @RequestParam int categoryId, @RequestParam String expirationFrame,
@@ -57,7 +54,7 @@ public class ProductController {
         newProduct.setExpirationFrame(expirationFrame);
         newProduct.setExpirationDate(newProduct.getEntryDate(), newProduct.getExpirationFrame(), newProduct.getExpirationTime());
         productDao.save(newProduct);
-        return "redirect:";
+        return "redirect:/product";
     }
 
     @RequestMapping(value = "edit/{productId}", method = RequestMethod.GET)
@@ -79,7 +76,7 @@ public class ProductController {
         editProduct.setExpirationTime(expirationTime);
         editProduct.setExpirationFrame(expirationFrame);
         editProduct.setEntryDate(year, month, day);
-        editProduct.setExpirationDate(editProduct.getEntryDate(), editProduct.getExpirationFrame(), editProduct.getExpirationTime());
+        editProduct.setExpirationDate(editProduct.getEntryDate(), expirationFrame, expirationTime);
         editProduct.setCategory(categoryDao.findOne(categoryId));
         productDao.save(editProduct);
         return "redirect:/product";

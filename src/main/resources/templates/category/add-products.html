@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="container">
+<h1 th:text="${title}"></h1>
+
+<form method="post" th:object="${products}">
+    <div class="form-group">
+        <ul style="list-style-type:none">
+            <li th:each="product : ${products}">
+                <input type="checkbox" th:value="${product.id}"/>
+                <label th:for="${product.id}"
+                       th:text="${product.name}"></label>
+            </li>
+        </ul>
+    </div>
+    <input type="submit" value="Add Products" />
+</form>
+
+</body>
+</html>
