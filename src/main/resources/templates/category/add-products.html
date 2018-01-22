@@ -5,11 +5,12 @@
 <body class="container">
 <h1 th:text="${title}"></h1>
 
-<form method="post" th:object="${products}">
+<form method="post">
+    <input type="hidden" th:value="${category.id}" th:name="categoryId" />
     <div class="form-group">
         <ul style="list-style-type:none">
             <li th:each="product : ${products}">
-                <input type="checkbox" th:value="${product.id}"/>
+                <input type="checkbox" name="productIds" th:value="${product.id}" th:id="${product.id}"/>
                 <label th:for="${product.id}"
                        th:text="${product.name}"></label>
             </li>

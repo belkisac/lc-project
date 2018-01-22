@@ -42,7 +42,7 @@ public class ProductController {
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String processAddForm(@ModelAttribute @Valid Product newProduct, Errors errors,
-                                 @RequestParam int categoryId, @RequestParam String expirationFrame,
+                                 int categoryId, String expirationFrame,
                                  Model model) {
         if(errors.hasErrors()) {
             model.addAttribute("title", "Add a Product");

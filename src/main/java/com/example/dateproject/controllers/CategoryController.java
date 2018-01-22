@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -62,9 +59,7 @@ public class CategoryController {
         return "category/view";
     }
 
-    //TODO: allow products to be added to categories in bulk
-    //for now it just returns index so i can see if the link works
-    @RequestMapping(value = "{categoryId}/add")
+    @RequestMapping(value = "{categoryId}/add", method = RequestMethod.GET)
     public String displayAddToCategory(Model model, @PathVariable int categoryId) {
         //find products that are not already in that category and remove them
         //so user doesn't see redundant information
@@ -76,8 +71,19 @@ public class CategoryController {
             }
         }
         model.addAttribute("title", "Add Products to " + categoryDao.findOne(categoryId).getName());
+        model.addAttribute(categoryDao.findOne(categoryId));
         model.addAttribute("products", allProducts);
         return "category/add-products";
+    }
+
+    @RequestMapping(value = "{categoryId}/add", method = RequestMethod.POST)
+    public String processAddToCategory(Model model, int categoryId, @RequestParam int [] productIds) {
+        Category thisCategory = categoryDao.findOne(categoryId);
+        for (int id : productIds) {
+            thisCategory.addProduct(productDao.findOne(id));
+        }
+        categoryDao.save(thisCategory);
+        return "redirect:/category/" + thisCategory.getId();
     }
 
     //TODO: edit category form*/
