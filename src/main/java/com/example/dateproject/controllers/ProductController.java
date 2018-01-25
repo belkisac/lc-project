@@ -7,6 +7,7 @@ import com.example.dateproject.models.data.ProductDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,14 +67,13 @@ public class ProductController {
     }
 
     //TODO: add validation for editing product
-    //could you do this easier with @ModelAttribute and @Valid or..?
     @RequestMapping(value = "edit/{productId}", method = RequestMethod.POST)
-    public String processEditProduct(@ModelAttribute @Valid Product product, Errors errors,
+    public String processEditProduct(@Valid @ModelAttribute("product") Product product, BindingResult errors,
                                      Model model, int productId, String name, Integer month, Integer year, Integer day,
                                      Long expirationTime, String expirationFrame, int categoryId) {
         if(errors.hasErrors()) {
             model.addAttribute("title", "Edit " + productDao.findOne(productId).getName());
-            model.addAttribute(productDao.findOne(productId));
+            model.addAttribute("product", product);
             model.addAttribute("categories", categoryDao.findAll());
             return "product/edit";
         }

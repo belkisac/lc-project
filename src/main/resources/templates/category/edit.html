@@ -14,7 +14,7 @@
     </div>
     <div class="form-group">
         <ul style="list-style-type:none">
-            <li th:each="product : *{products}">
+            <li th:each="product : ${products}">
                 <input type="checkbox" name="productIds" th:value="${product.id}" th:id="${product.id}"/>
                 <label th:for="${product.id}"
                        th:text="${product.name}"></label>

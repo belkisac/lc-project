@@ -96,11 +96,12 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "{categoryId}/edit", method = RequestMethod.POST)
-    public String processEditCategory(@ModelAttribute @Valid Category category, Errors errors,
+    public String processEditCategory(@ModelAttribute("category") @Valid Category category, Errors errors,
                                       @RequestParam int categoryId, String name, int [] productIds, Model model) {
         if(errors.hasErrors()) {
             model.addAttribute("title", "Edit " + categoryDao.findOne(categoryId).getName());
-            model.addAttribute(categoryDao.findOne(categoryId));
+            model.addAttribute("category", category);
+            model.addAttribute("products", categoryDao.findOne(categoryId).getProducts());
             return "category/edit";
         }
 
