@@ -86,6 +86,36 @@ public class CategoryController {
         return "redirect:/category/" + thisCategory.getId();
     }
 
-    //TODO: edit category form*/
+    //TODO: edit category form
+    @RequestMapping(value = "{categoryId}/edit", method = RequestMethod.GET)
+    public String displayEditCategory(Model model, @PathVariable int categoryId) {
+        Category thisCategory = categoryDao.findOne(categoryId);
+        model.addAttribute("title", "Edit " + thisCategory.getName());
+        model.addAttribute(thisCategory);
+        model.addAttribute("products", thisCategory.getProducts());
+        return "category/edit";
+    }
 
+    @RequestMapping(value = "{categoryId}/edit", method = RequestMethod.POST)
+    public String processEditCategory(@ModelAttribute("category") @Valid Category editCategory, Errors errors,
+                                      @RequestParam int categoryId, String name, int [] productIds, Model model) {
+        if(errors.hasErrors()) {
+            model.addAttribute("title", "Edit " + categoryDao.findOne(categoryId).getName());
+            model.addAttribute(categoryDao.findOne(categoryId));
+            return "category/edit";
+        }
+
+        Category thisCategory = categoryDao.findOne(categoryId);
+        thisCategory.setName(name);
+
+        if(productIds != null) {
+            for (int id : productIds) {
+                thisCategory.removeProduct(productDao.findOne(id));
+                productDao.delete(id);
+            }
+        }
+
+        categoryDao.save(thisCategory);
+        return "redirect:/category/" + thisCategory.getId();
+    }
 }

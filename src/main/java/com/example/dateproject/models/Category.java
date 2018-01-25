@@ -53,4 +53,8 @@ public class Category {
     public void addProduct(Product newProduct) {
         products.add(newProduct);
     }
+
+    public void removeProduct(Product deletedProduct) {
+        products.remove(deletedProduct);
+    }
 }

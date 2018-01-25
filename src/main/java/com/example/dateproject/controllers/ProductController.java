@@ -65,6 +65,8 @@ public class ProductController {
         return "product/edit";
     }
 
+    //TODO: add validation for editing product
+    //could you do this easier with @ModelAttribute and @Valid or..?
     @RequestMapping(value = "edit/{productId}", method = RequestMethod.POST)
     public String processEditProduct(Model model, int productId, String name, Integer month, Integer year, Integer day,
                                      Long expirationTime, String expirationFrame, int categoryId) {
