@@ -68,8 +68,16 @@ public class ProductController {
     //TODO: add validation for editing product
     //could you do this easier with @ModelAttribute and @Valid or..?
     @RequestMapping(value = "edit/{productId}", method = RequestMethod.POST)
-    public String processEditProduct(Model model, int productId, String name, Integer month, Integer year, Integer day,
+    public String processEditProduct(@ModelAttribute @Valid Product product, Errors errors,
+                                     Model model, int productId, String name, Integer month, Integer year, Integer day,
                                      Long expirationTime, String expirationFrame, int categoryId) {
+        if(errors.hasErrors()) {
+            model.addAttribute("title", "Edit " + productDao.findOne(productId).getName());
+            model.addAttribute(productDao.findOne(productId));
+            model.addAttribute("categories", categoryDao.findAll());
+            return "product/edit";
+        }
+
         Product editProduct = productDao.findOne(productId);
         editProduct.setName(name);
         editProduct.setMonth(month);

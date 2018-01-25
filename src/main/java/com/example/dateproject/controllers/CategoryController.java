@@ -86,7 +86,6 @@ public class CategoryController {
         return "redirect:/category/" + thisCategory.getId();
     }
 
-    //TODO: edit category form
     @RequestMapping(value = "{categoryId}/edit", method = RequestMethod.GET)
     public String displayEditCategory(Model model, @PathVariable int categoryId) {
         Category thisCategory = categoryDao.findOne(categoryId);
@@ -97,7 +96,7 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "{categoryId}/edit", method = RequestMethod.POST)
-    public String processEditCategory(@ModelAttribute("category") @Valid Category editCategory, Errors errors,
+    public String processEditCategory(@ModelAttribute @Valid Category category, Errors errors,
                                       @RequestParam int categoryId, String name, int [] productIds, Model model) {
         if(errors.hasErrors()) {
             model.addAttribute("title", "Edit " + categoryDao.findOne(categoryId).getName());
