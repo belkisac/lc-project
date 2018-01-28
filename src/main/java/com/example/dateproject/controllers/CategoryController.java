@@ -89,33 +89,35 @@ public class CategoryController {
     @RequestMapping(value = "{categoryId}/edit", method = RequestMethod.GET)
     public String displayEditCategory(Model model, @PathVariable int categoryId) {
         Category thisCategory = categoryDao.findOne(categoryId);
-        model.addAttribute("title", "Edit " + thisCategory.getName());
+        model.addAttribute("title", "Edit Category");
         model.addAttribute(thisCategory);
+        model.addAttribute("id", thisCategory.getId());
         model.addAttribute("products", thisCategory.getProducts());
         return "category/edit";
     }
 
     @RequestMapping(value = "{categoryId}/edit", method = RequestMethod.POST)
     public String processEditCategory(@ModelAttribute("category") @Valid Category category, Errors errors,
-                                      @RequestParam int categoryId, String name, int [] productIds, Model model) {
+                                      int categoryId, String name, int [] productIds, Model model) {
         if(errors.hasErrors()) {
-            model.addAttribute("title", "Edit " + categoryDao.findOne(categoryId).getName());
+            model.addAttribute("title", "Edit Category");
             model.addAttribute("category", category);
             model.addAttribute("products", categoryDao.findOne(categoryId).getProducts());
+            model.addAttribute("id", categoryId);
             return "category/edit";
         }
-
-        Category thisCategory = categoryDao.findOne(categoryId);
-        thisCategory.setName(name);
+        
+        Category editedCat = categoryDao.findOne(categoryId);
+        editedCat.setName(name);
 
         if(productIds != null) {
             for (int id : productIds) {
-                thisCategory.removeProduct(productDao.findOne(id));
+                editedCat.removeProduct(productDao.findOne(id));
                 productDao.delete(id);
             }
         }
 
-        categoryDao.save(thisCategory);
-        return "redirect:/category/" + thisCategory.getId();
+        categoryDao.save(editedCat);
+        return "redirect:/category/" + editedCat.getId();
     }
 }
