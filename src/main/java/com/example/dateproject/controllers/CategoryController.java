@@ -89,7 +89,7 @@ public class CategoryController {
     @RequestMapping(value = "{categoryId}/edit", method = RequestMethod.GET)
     public String displayEditCategory(Model model, @PathVariable int categoryId) {
         Category thisCategory = categoryDao.findOne(categoryId);
-        model.addAttribute("title", "Edit Category");
+        model.addAttribute("title", "Edit " + thisCategory.getName());
         model.addAttribute(thisCategory);
         model.addAttribute("id", thisCategory.getId());
         model.addAttribute("products", thisCategory.getProducts());
@@ -100,13 +100,13 @@ public class CategoryController {
     public String processEditCategory(@ModelAttribute("category") @Valid Category category, Errors errors,
                                       int categoryId, String name, int [] productIds, Model model) {
         if(errors.hasErrors()) {
-            model.addAttribute("title", "Edit Category");
+            model.addAttribute("title", "Edit " + categoryDao.findOne(categoryId).getName());
             model.addAttribute("category", category);
             model.addAttribute("products", categoryDao.findOne(categoryId).getProducts());
             model.addAttribute("id", categoryId);
             return "category/edit";
         }
-        
+
         Category editedCat = categoryDao.findOne(categoryId);
         editedCat.setName(name);
 

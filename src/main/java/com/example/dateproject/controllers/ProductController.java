@@ -62,18 +62,19 @@ public class ProductController {
     public String displayEditProduct(@PathVariable int productId, Model model) {
         model.addAttribute("title", "Edit " + productDao.findOne(productId).getName());
         model.addAttribute(productDao.findOne(productId));
+        model.addAttribute("id", productId);
         model.addAttribute("categories", categoryDao.findAll());
         return "product/edit";
     }
 
-    //TODO: add validation for editing product
     @RequestMapping(value = "edit/{productId}", method = RequestMethod.POST)
-    public String processEditProduct(@Valid @ModelAttribute("product") Product product, BindingResult errors,
+    public String processEditProduct(@Valid @ModelAttribute("product") Product product, Errors errors,
                                      Model model, int productId, String name, Integer month, Integer year, Integer day,
                                      Long expirationTime, String expirationFrame, int categoryId) {
         if(errors.hasErrors()) {
             model.addAttribute("title", "Edit " + productDao.findOne(productId).getName());
             model.addAttribute("product", product);
+            model.addAttribute("id", productId);
             model.addAttribute("categories", categoryDao.findAll());
             return "product/edit";
         }
