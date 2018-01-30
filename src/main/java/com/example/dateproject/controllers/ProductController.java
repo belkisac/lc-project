@@ -54,6 +54,8 @@ public class ProductController {
         newProduct.setEntryDate(newProduct.getYear(), newProduct.getMonth(), newProduct.getDay());
         newProduct.setExpirationFrame(expirationFrame);
         newProduct.setExpirationDate(newProduct.getEntryDate(), newProduct.getExpirationFrame(), newProduct.getExpirationTime());
+        newProduct.setExpirationMonth(newProduct.getExpirationDate());
+        newProduct.setExpirationYear(newProduct.getExpirationDate());
         productDao.save(newProduct);
         return "redirect:/product";
     }

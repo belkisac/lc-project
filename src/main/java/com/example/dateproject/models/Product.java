@@ -22,7 +22,7 @@ public class Product {
     @NotBlank(message = "Field cannot be empty")
     private String name;
 
-    @NotNull
+    @NotNull(message = "field cannot be empty")
     private Integer year;
 
     @NotNull(message = "field cannot be empty")
@@ -30,7 +30,7 @@ public class Product {
     @Max(value = 12, message = "Value must be between 1-12")
     private Integer month;
 
-    @NotNull
+    @NotNull(message = "field cannot be empty")
     @Min(value = 1, message = "Value must be between 1-31")
     @Max(value = 31, message = "Value must be between 1-31")
     private Integer day;
@@ -43,6 +43,10 @@ public class Product {
     private String expirationFrame;
 
     private LocalDate expirationDate;
+
+    private int expirationMonth;
+
+    private int expirationYear;
 
     @ManyToOne
     private Category category;
@@ -128,6 +132,22 @@ public class Product {
         } else {
             expirationDate = entryDate.plusMonths(expirationTime);
         }
+    }
+
+    public void setExpirationMonth(LocalDate expirationDate) {
+        expirationMonth = expirationDate.getMonthValue();
+    }
+
+    public int getExpirationMonth() {
+        return expirationMonth;
+    }
+
+    public void setExpirationYear(LocalDate expirationDate) {
+        expirationYear = expirationDate.getYear();
+    }
+
+    public int getExpirationYear() {
+        return expirationYear;
     }
 
     public Category getCategory() {
