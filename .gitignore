@@ -5,3 +5,6 @@
 *.o
 *.so
 google-api.json
+.gradle/
+.idea/
+build/
