@@ -1,6 +1,6 @@
 package com.example.dateproject.models.data;
 
-import com.example.dateproject.models.Product;
+import com.example.dateproject.models.Event;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,8 +10,6 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface ProductDao extends CrudRepository<Product, Integer> {
-
-    <List>Product findByExpirationDateBefore(LocalDate start);
-
+public interface EventDao extends CrudRepository<Event, Integer> {
+    List<Event> findByStartAfter(LocalDate startDate);
 }

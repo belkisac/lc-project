@@ -1,8 +1,10 @@
 package com.example.dateproject.controllers;
 
 import com.example.dateproject.models.Category;
+import com.example.dateproject.models.Event;
 import com.example.dateproject.models.Product;
 import com.example.dateproject.models.data.CategoryDao;
+import com.example.dateproject.models.data.EventDao;
 import com.example.dateproject.models.data.ProductDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,9 @@ public class ProductController {
 
     @Autowired
     private CategoryDao categoryDao;
+
+    @Autowired
+    private EventDao eventDao;
 
     @RequestMapping(value = "")
     public String index(Model model) {
@@ -57,6 +62,8 @@ public class ProductController {
         newProduct.setExpirationMonth(newProduct.getExpirationDate());
         newProduct.setExpirationYear(newProduct.getExpirationDate());
         productDao.save(newProduct);
+        Event newEvent = new Event(newProduct.getName(), newProduct.getExpirationDate());
+        eventDao.save(newEvent);
         return "redirect:/product";
     }
 
