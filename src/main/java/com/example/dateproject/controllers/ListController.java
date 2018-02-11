@@ -17,7 +17,7 @@ public class ListController {
     EventDao eventDao;
 
     @RequestMapping(value = "/events", method = RequestMethod.GET)
-    public List<Event> events() {
-        return eventDao.findByStartAfter(LocalDate.now());
+    public Iterable<Event> events() {
+        return eventDao.findAll();
     }
 }

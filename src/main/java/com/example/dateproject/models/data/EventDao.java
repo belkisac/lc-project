@@ -11,5 +11,8 @@ import java.util.List;
 @Repository
 @Transactional
 public interface EventDao extends CrudRepository<Event, Integer> {
+
+    List<Event> findAll();
+
     List<Event> findByStartAfter(LocalDate startDate);
 }
