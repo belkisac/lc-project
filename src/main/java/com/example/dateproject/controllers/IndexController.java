@@ -26,8 +26,6 @@ public class IndexController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(Model model) {
-        model.addAttribute("title", "Testing");
-        model.addAttribute("message", "hello");
         return "index/calendar";
     }
 }

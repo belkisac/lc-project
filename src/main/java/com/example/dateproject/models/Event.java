@@ -1,10 +1,15 @@
 package com.example.dateproject.models;
 
 
+import org.apache.tomcat.jni.Local;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 @Entity
 public class Event {
@@ -15,11 +20,10 @@ public class Event {
 
     private String title;
 
-    private LocalDate start;
+    private String start;
 
-    public Event(String title, LocalDate start) {
+    public Event(String title) {
         this.title = title;
-        this.start = start;
     }
 
     public Event() {}
@@ -36,12 +40,14 @@ public class Event {
         this.title = title;
     }
 
-    public LocalDate getStart() {
+    public String getStart() {
         return start;
     }
 
     public void setStart(LocalDate start) {
-        this.start = start;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = Date.from(start.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        this.start = sdf.format(date);
     }
 
 }

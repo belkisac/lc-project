@@ -15,29 +15,45 @@
 
     <script>
 <!--
-$(document).ready(function() {
+$(document).ready(function(){
+    $('#calendar').fullCalendar({
+	header: {
+		left: 'prev,next today',
+		center: 'title',
+		right: 'month,agendaWeek,agendaDay'
+	},
+	defaultDate: moment().format("YYYY-MM-DD"),
+	editable: true,
+	eventLimit: true, // allow "more" link when too many events
+	events: {
+        url: '/events',
+        type: 'GET',
+        error: function() {
+            alert('there was an error while fetching events!');
+        },
+        //color: 'blue',   // a non-ajax option
+        //textColor: 'white' // a non-ajax option
+    }
+});
 
-	$('#calendar').fullCalendar({
-		header: {
-			left: 'prev,next today',
-			center: 'title',
-			right: 'month,agendaWeek,agendaDay'
-		},
-		defaultDate: moment().format("YYYY-MM-DD"),
-		editable: true,
-		eventLimit: true, // allow "more" link when too many events
-		events: {
-	        url: '/events',
-	        type: 'GET',
-	        error: function() {
-	            alert('there was an error while fetching events!');
-	        },
-	        //color: 'blue',   // a non-ajax option
-	        //textColor: 'white' // a non-ajax option
-	    }
-	});
-
-	});
+$.ajax({
+        url : '/events',
+        type : 'get',
+        dataType: 'json',
+        success: function(e){
+            if(e.success){
+                var events = [];
+                $.each(e.events,function(index,value){
+                    events.push({
+                        title : value.title,
+                        start : moment(value.start_date).format('YYYY-MM-DD')
+                    });
+                });
+                $('calendar').fullCalendar( 'renderEvents', events);
+            }
+        }
+    });
+});
 -->
 </script>
     <style>

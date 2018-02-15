@@ -62,7 +62,8 @@ public class ProductController {
         newProduct.setExpirationMonth(newProduct.getExpirationDate());
         newProduct.setExpirationYear(newProduct.getExpirationDate());
         productDao.save(newProduct);
-        Event newEvent = new Event(newProduct.getName(), newProduct.getExpirationDate());
+        Event newEvent = new Event(newProduct.getName());
+        newEvent.setStart(newProduct.getExpirationDate());
         eventDao.save(newEvent);
         return "redirect:/product";
     }

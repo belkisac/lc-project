@@ -14,5 +14,4 @@ public interface EventDao extends CrudRepository<Event, Integer> {
 
     List<Event> findAll();
 
-    List<Event> findByStartAfter(LocalDate startDate);
 }

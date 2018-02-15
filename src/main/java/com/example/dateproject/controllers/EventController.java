@@ -5,19 +5,24 @@ import com.example.dateproject.models.data.EventDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.List;
+import java.time.ZoneId;
+import java.util.*;
+
 
 @RestController
-public class ListController {
+public class EventController {
 
     @Autowired
     EventDao eventDao;
 
-    @RequestMapping(value = "/events", method = RequestMethod.GET)
-    public Iterable<Event> events() {
+    @RequestMapping(value = "/events", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    public @ResponseBody List<Event> getEvents() {
         return eventDao.findAll();
     }
+
 }
