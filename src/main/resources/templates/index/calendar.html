@@ -3,9 +3,11 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <link href="http://fullcalendar.io/js/fullcalendar-2.2.5/fullcalendar.css"
-          th:href="@{/webjars/fullcalendar/2.2.5/fullcalendar.css}" rel="stylesheet"></link>
+          th:href="@{/webjars/fullcalendar/2.2.5/fullcalendar.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
     <link href="http://fullcalendar.io/js/fullcalendar-2.2.5/fullcalendar.print.css"
-          th:href="@{/webjars/fullcalendar/2.2.5/fullcalendar.print.css}" rel="stylesheet" media="print"></link>
+          th:href="@{/webjars/fullcalendar/2.2.5/fullcalendar.print.css}" rel="stylesheet" media="print" />
     <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"
             th:src="@{/webjars/momentjs/2.9.0/min/moment.min.js}" type="text/javascript"></script>
     <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.3/jquery.min.js"
@@ -26,33 +28,13 @@ $(document).ready(function(){
 	editable: true,
 	eventLimit: true, // allow "more" link when too many events
 	events: {
-        url: '/events',
+	    url: '/events',
         type: 'GET',
-        error: function() {
-            alert('there was an error while fetching events!');
-        },
-        //color: 'blue',   // a non-ajax option
-        //textColor: 'white' // a non-ajax option
+        color: 'blue',
+        textColor: 'white'
     }
 });
 
-$.ajax({
-        url : '/events',
-        type : 'get',
-        dataType: 'json',
-        success: function(e){
-            if(e.success){
-                var events = [];
-                $.each(e.events,function(index,value){
-                    events.push({
-                        title : value.title,
-                        start : moment(value.start_date).format('YYYY-MM-DD')
-                    });
-                });
-                $('calendar').fullCalendar( 'renderEvents', events);
-            }
-        }
-    });
 });
 -->
 </script>
@@ -65,15 +47,41 @@ $.ajax({
         }
 
         #calendar {
-            max-width: 900px;
-            margin: 0 auto;
+            max-width: 700px;
         }
     </style>
 </head>
 
 
 <body>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Future navigation?</h1>
+        </div>
+    </div>
+    <div></div>
+    <div class="row">
+<div class="col-sm-8">
 <div id='calendar' th:id="calendar"></div>
+</div>
+<div class="col-sm-4">
+    <table class="table">
+
+
+            <h2>Categories</h2>
+
+
+        <ul th:each="category : ${categories}" class="list-unstyled">
+            <div class="btn-group-vertical">
+            <li><button type="button" class="btn btn-secondary btn-lg btn-block"><a href="@{'/category/' + ${category.id} + '/edit'}" th:text="${category.name}"></a></button></li>
+            </div>
+        </ul>
+
+    </table>
+</div>
+    </div>
+</div>
 
 </body>
 </html>
