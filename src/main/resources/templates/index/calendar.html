@@ -74,7 +74,7 @@ $(document).ready(function(){
 
         <ul th:each="category : ${categories}" class="list-unstyled">
             <div class="btn-group-vertical">
-            <li><button type="button" class="btn btn-secondary btn-lg btn-block"><a href="@{'/category/' + ${category.id} + '/edit'}" th:text="${category.name}"></a></button></li>
+            <li><button type="button" class="btn btn-secondary btn-lg btn-block"><a th:href="@{'/category/' + ${category.id}}" th:text="${category.name}"></a></button></li>
             </div>
         </ul>
 
