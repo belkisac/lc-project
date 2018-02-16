@@ -63,7 +63,7 @@ public class CategoryController {
     public String displayAddToCategory(Model model, @PathVariable int categoryId) {
         //find products that are not already in that category and remove them
         //so user doesn't see redundant information
-        ArrayList<Product> allProducts = (ArrayList<Product>) productDao.findAll();
+        List<Product> allProducts = productDao.findAll();
         List<Product> categoryProducts = categoryDao.findOne(categoryId).getProducts();
         for (Product product : categoryProducts) {
             if (allProducts.contains(product)) {

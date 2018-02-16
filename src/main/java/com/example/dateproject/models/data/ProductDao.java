@@ -11,7 +11,5 @@ import java.util.List;
 @Repository
 @Transactional
 public interface ProductDao extends CrudRepository<Product, Integer> {
-
-    <List>Product findByExpirationDateBefore(LocalDate start);
-
+    List<Product> findAll();
 }

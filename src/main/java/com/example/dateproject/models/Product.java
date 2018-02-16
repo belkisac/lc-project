@@ -44,10 +44,6 @@ public class Product {
 
     private LocalDate expirationDate;
 
-    private int expirationMonth;
-
-    private int expirationYear;
-
     @ManyToOne
     private Category category;
 
@@ -132,22 +128,6 @@ public class Product {
         } else {
             expirationDate = entryDate.plusMonths(expirationTime);
         }
-    }
-
-    public void setExpirationMonth(LocalDate expirationDate) {
-        expirationMonth = expirationDate.getMonthValue();
-    }
-
-    public int getExpirationMonth() {
-        return expirationMonth;
-    }
-
-    public void setExpirationYear(LocalDate expirationDate) {
-        expirationYear = expirationDate.getYear();
-    }
-
-    public int getExpirationYear() {
-        return expirationYear;
     }
 
     public Category getCategory() {
