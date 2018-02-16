@@ -10,6 +10,9 @@
 .settings
 .springBeans
 
+src/main/resources/google-api.json
+src/main/resources/clients.p12
+
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -23,5 +26,4 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-
-google-api.json
+src/main/resources/google-api.json
