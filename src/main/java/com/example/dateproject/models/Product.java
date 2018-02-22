@@ -2,10 +2,7 @@ package com.example.dateproject.models;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -31,8 +28,7 @@ public class Product {
     private Integer month;
 
     @NotNull(message = "field cannot be empty")
-    @Min(value = 1, message = "Value must be between 1-31")
-    @Max(value = 31, message = "Value must be between 1-31")
+    @Min(value = 1, message = "Value must be greater than 1")
     private Integer day;
 
     private LocalDate entryDate;
