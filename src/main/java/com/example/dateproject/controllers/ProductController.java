@@ -80,6 +80,8 @@ public class ProductController {
     public String processEditProduct(@Valid @ModelAttribute("product") Product product, Errors errors,
                                      Model model, int productId, String name, Integer month, Integer year, Integer day,
                                      Long expirationTime, String expirationFrame, int categoryId) {
+        ProductValidator productValidator = new ProductValidator();
+        productValidator.validate(product, errors);
         if(errors.hasErrors()) {
             model.addAttribute("title", "Edit " + productDao.findOne(productId).getName());
             model.addAttribute("product", product);

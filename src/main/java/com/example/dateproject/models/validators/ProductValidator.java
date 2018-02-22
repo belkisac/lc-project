@@ -24,11 +24,6 @@ public class ProductValidator implements Validator {
     public void validate(Object obj, Errors errors) {
         ValidationUtils.rejectIfEmpty(errors, "name", "name.empty");
         Product product = (Product) obj;
-        /*
-        this code works
-        if(product.getMonth() == 2 && product.getDay() > 29) {
-            errors.rejectValue("day", "invalid.range", "Invalid month range");
-        } */
         if(product.getMonth() == 1 || product.getMonth() == 3 || product.getMonth() == 5 || product.getMonth() == 7 || product.getMonth() == 8 || product.getMonth() == 10 || product.getMonth() == 12) {
             if(product.getDay() > 31) {
                 errors.rejectValue("day", "invalid.range", "Invalid month range");
