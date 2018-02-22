@@ -16,6 +16,7 @@ import java.util.List;
 
 
 @Controller
+@RequestMapping(value = "/")
 public class IndexController {
 
     @Autowired
