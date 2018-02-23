@@ -2,9 +2,11 @@ package com.example.dateproject.controllers;
 
 import com.example.dateproject.models.Event;
 import com.example.dateproject.models.Product;
+import com.example.dateproject.models.User;
 import com.example.dateproject.models.data.CategoryDao;
 import com.example.dateproject.models.data.EventDao;
 import com.example.dateproject.models.data.ProductDao;
+import com.example.dateproject.models.data.UserDao;
 import com.example.dateproject.models.validators.ProductValidator;
 import com.example.dateproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.util.Arrays;
 
 @RequestMapping(value = "product")
 @Controller
@@ -34,6 +37,9 @@ public class ProductController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserDao userDao;
 
     @RequestMapping(value = "")
     public String index(Model model) {
@@ -70,7 +76,9 @@ public class ProductController {
         Event newEvent = new Event(newProduct.getName());
         newEvent.setStart(newProduct.getExpirationDate());
         eventDao.save(newEvent);
-        //Authentication auth = SecurityContextHolder.
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+        user.setProducts(Arrays.asList(newProduct));
         return "redirect:/product";
     }
 
