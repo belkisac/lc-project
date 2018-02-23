@@ -13,6 +13,7 @@ public class Product {
 
     @Id
     @GeneratedValue
+    @Column(name = "product_id")
     private int id;
 
     @NotNull

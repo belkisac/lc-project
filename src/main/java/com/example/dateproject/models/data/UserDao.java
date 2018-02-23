@@ -1,14 +1,15 @@
 package com.example.dateproject.models.data;
 
-import com.example.dateproject.models.Product;
+import com.example.dateproject.models.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Repository
 @Transactional
-public interface ProductDao extends CrudRepository<Product, Integer> {
-    List<Product> findAll();
+public interface UserDao extends CrudRepository<User, Integer> {
+
+    User findByEmail(String email);
+
 }

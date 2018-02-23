@@ -6,7 +6,10 @@ import com.example.dateproject.models.data.CategoryDao;
 import com.example.dateproject.models.data.EventDao;
 import com.example.dateproject.models.data.ProductDao;
 import com.example.dateproject.models.validators.ProductValidator;
+import com.example.dateproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -28,6 +31,9 @@ public class ProductController {
 
     @Autowired
     private EventDao eventDao;
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "")
     public String index(Model model) {
@@ -64,6 +70,7 @@ public class ProductController {
         Event newEvent = new Event(newProduct.getName());
         newEvent.setStart(newProduct.getExpirationDate());
         eventDao.save(newEvent);
+        //Authentication auth = SecurityContextHolder.
         return "redirect:/product";
     }
 

@@ -14,6 +14,7 @@ public class Category {
 
     @Id
     @GeneratedValue
+    @Column(name = "category_id")
     private int id;
 
     @NotNull
