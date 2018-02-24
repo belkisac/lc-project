@@ -42,7 +42,12 @@ public class Product {
     private LocalDate expirationDate;
 
     @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Product() {}
 
@@ -134,4 +139,8 @@ public class Product {
     public void setCategory(Category category) {
         this.category = category;
     }
+
+    public User getUser() { return user; }
+
+    public void setUser(User user) { this.user = user; }
 }

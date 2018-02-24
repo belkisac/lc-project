@@ -37,13 +37,14 @@ public class User {
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_products")
+    @OneToMany(mappedBy = "user")
     private List<Product> products;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_categories")
+    @OneToMany(mappedBy = "user")
     private List<Category> categories;
+
+    @OneToMany(mappedBy = "user")
+    private List<Event> events;
 
     public User() {}
 
@@ -103,11 +104,43 @@ public class User {
         this.products = products;
     }
 
+    public void addProduct(Product newProduct) {
+        products.add(newProduct);
+    }
+
+    public void removeProduct(Product deletedProduct) {
+        products.remove(deletedProduct);
+    }
+
     public List<Category> getCategories() {
         return categories;
     }
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public void addCategory(Category newCategory) {
+        categories.add(newCategory);
+    }
+
+    public void removeCategory(Category deleteCategory) {
+        categories.remove(deleteCategory);
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
+    public void addEvent(Event newEvent) {
+        events.add(newEvent);
+    }
+
+    public void removeEvent(Event deleteEvent) {
+        events.remove(deleteEvent);
     }
 }

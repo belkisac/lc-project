@@ -2,9 +2,13 @@ package com.example.dateproject.controllers;
 
 import com.example.dateproject.models.Category;
 import com.example.dateproject.models.Product;
+import com.example.dateproject.models.User;
 import com.example.dateproject.models.data.CategoryDao;
 import com.example.dateproject.models.data.ProductDao;
+import com.example.dateproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -24,11 +28,17 @@ public class CategoryController {
     @Autowired
     private ProductDao productDao;
 
+    @Autowired
+    private UserService userService;
+
     //display list of all categories
     @RequestMapping(value = "")
     public String index(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+
         model.addAttribute("title", "Categories");
-        model.addAttribute("categories", categoryDao.findAll());
+        model.addAttribute("categories", categoryDao.findByUserId(user.getId()));
         return "category/index";
     }
 
@@ -43,10 +53,15 @@ public class CategoryController {
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String processAddCategory(Model model, @ModelAttribute @Valid Category newCategory,
                                      Errors errors) {
+        //authenticate user and get user details
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
         if(errors.hasErrors()) {
             model.addAttribute("title", "Add a Category");
             return "category/add";
         }
+        newCategory.setUser(user);
+        user.addCategory(newCategory);
         categoryDao.save(newCategory);
         return "redirect:";
     }

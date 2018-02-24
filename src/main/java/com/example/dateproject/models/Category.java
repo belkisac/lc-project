@@ -25,6 +25,10 @@ public class Category {
     @JoinColumn(name = "category_id")
     private List<Product> products = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Category(String name) {
         this.name = name;
     }
@@ -58,4 +62,8 @@ public class Category {
     public void removeProduct(Product deletedProduct) {
         products.remove(deletedProduct);
     }
+
+    public User getUser() { return user; }
+
+    public void setUser(User user) { this.user = user; }
 }

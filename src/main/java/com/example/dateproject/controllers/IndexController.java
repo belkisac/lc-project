@@ -37,7 +37,7 @@ public class IndexController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         model.addAttribute("testing", "Welcome " + user.getName());
-        model.addAttribute("categories", categoryDao.findAll());
+        model.addAttribute("categories", categoryDao.findByUserId(user.getId()));
         return "index/calendar";
     }
 }

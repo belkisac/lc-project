@@ -3,9 +3,7 @@ package com.example.dateproject.models;
 
 import org.apache.tomcat.jni.Local;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -21,6 +19,10 @@ public class Event {
     private String title;
 
     private String start;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Event(String title) {
         this.title = title;
@@ -48,6 +50,14 @@ public class Event {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = Date.from(start.atStartOfDay(ZoneId.systemDefault()).toInstant());
         this.start = sdf.format(date);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }

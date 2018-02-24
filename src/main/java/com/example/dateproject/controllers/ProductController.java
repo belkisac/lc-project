@@ -41,9 +41,16 @@ public class ProductController {
     @Autowired
     private UserDao userDao;
 
+
+
+
+
     @RequestMapping(value = "")
     public String index(Model model) {
-        model.addAttribute("products", productDao.findAll());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+
+        model.addAttribute("products", productDao.findByUserId(user.getId()));
         model.addAttribute("title", "All Products");
 
         return "product/index";
@@ -61,6 +68,9 @@ public class ProductController {
     public String processAddForm(@ModelAttribute @Valid Product newProduct, Errors errors,
                                  int categoryId, String expirationFrame,
                                  Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+
         ProductValidator productValidator = new ProductValidator();
         productValidator.validate(newProduct, errors);
         if(errors.hasErrors()) {
@@ -68,17 +78,17 @@ public class ProductController {
             model.addAttribute("categories", categoryDao.findAll());
             return "product/add";
         }
+
         newProduct.setCategory(categoryDao.findOne(categoryId));
         newProduct.setEntryDate(newProduct.getYear(), newProduct.getMonth(), newProduct.getDay());
         newProduct.setExpirationFrame(expirationFrame);
         newProduct.setExpirationDate(newProduct.getEntryDate(), newProduct.getExpirationFrame(), newProduct.getExpirationTime());
+        newProduct.setUser(user);
         productDao.save(newProduct);
         Event newEvent = new Event(newProduct.getName());
         newEvent.setStart(newProduct.getExpirationDate());
         eventDao.save(newEvent);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
-        user.setProducts(Arrays.asList(newProduct));
+        user.addProduct(newProduct);
         return "redirect:/product";
     }
 
