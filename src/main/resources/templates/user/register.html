@@ -11,10 +11,10 @@
     <br/>
     <input type="text" th:field="*{name}" th:placeholder="Name" class="form-control"/>
     <br/>
-    <input type="submit" value="Login"/>
+    <input type="submit" value="Register"/>
 </form>
 
-<span th:utext="${successMessage}"></span>
+<span th:utext="${successMessage}"><br/><a th:href="@{/logout}">Logout</a></span>
 
 
 </body>

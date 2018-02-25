@@ -96,17 +96,15 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "{categoryId}/add", method = RequestMethod.POST)
-    public String processAddToCategory(Model model, int categoryId, @RequestParam int [] productIds) {
+    public String processAddToCategory(Model model, int categoryId, int [] productIds) {
         Category thisCategory = categoryDao.findOne(categoryId);
         if (productIds != null){
             for (int id : productIds) {
                 thisCategory.addProduct(productDao.findOne(id));
             }
-            categoryDao.save(thisCategory);
-            return "redirect:/category/" + thisCategory.getId();
         }
-        return "redirect:/category";
-    }
+        categoryDao.save(thisCategory);
+        return "redirect:/category/" + thisCategory.getId();    }
 
     @RequestMapping(value = "{categoryId}/edit", method = RequestMethod.GET)
     public String displayEditCategory(Model model, @PathVariable int categoryId) {

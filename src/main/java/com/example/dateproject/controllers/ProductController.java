@@ -59,7 +59,9 @@ public class ProductController {
         User user = userService.findUserByEmail(auth.getName());
 
         model.addAttribute("title", "Add a Product");
-        model.addAttribute("categories", categoryDao.findByUserId(user.getId()));
+        if(!categoryDao.findByUserId(user.getId()).isEmpty()) {
+            model.addAttribute("categories", categoryDao.findByUserId(user.getId()));
+        }
         model.addAttribute(new Product());
         return "product/add";
     }
@@ -75,11 +77,13 @@ public class ProductController {
         productValidator.validate(newProduct, errors);
         if(errors.hasErrors()) {
             model.addAttribute("title", "Add a Product");
+            //TODO: add so user only sees their own category and only if they have any
             model.addAttribute("categories", categoryDao.findAll());
             return "product/add";
         }
-
-        newProduct.setCategory(categoryDao.findOne(categoryId));
+        if(!categoryDao.findByUserId(user.getId()).isEmpty()) {
+            newProduct.setCategory(categoryDao.findOne(categoryId));
+        }
         newProduct.setEntryDate(newProduct.getYear(), newProduct.getMonth(), newProduct.getDay());
         newProduct.setExpirationFrame(expirationFrame);
         newProduct.setExpirationDate(newProduct.getEntryDate(), newProduct.getExpirationFrame(), newProduct.getExpirationTime());

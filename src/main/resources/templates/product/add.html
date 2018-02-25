@@ -35,9 +35,11 @@
     </div>
     <div class="form-group">
         <select name="categoryId">
-            <option th:each="category : ${categories}"
+            <option th:unless="${categories} and ${categories.size()}"
+                    th:each="category : ${categories}"
                     th:text="${category.name}"
-                    th:value="${category.id}"></option>
+                    th:value="${category.id}"
+                    ></option>
         </select>
     </div>
     <input type="submit" value="Add Product" />
