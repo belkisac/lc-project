@@ -20,9 +20,7 @@ public class Event {
 
     private String start;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private String userId;
 
     public Event(String title) {
         this.title = title;
@@ -52,12 +50,12 @@ public class Event {
         this.start = sdf.format(date);
     }
 
-    public User getUser() {
-        return user;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
 }

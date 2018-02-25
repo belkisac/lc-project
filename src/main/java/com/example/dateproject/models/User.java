@@ -43,9 +43,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Category> categories;
 
-    @OneToMany(mappedBy = "user")
-    private List<Event> events;
-
     public User() {}
 
     public int getId() {
@@ -128,19 +125,4 @@ public class User {
         categories.remove(deleteCategory);
     }
 
-    public List<Event> getEvents() {
-        return events;
-    }
-
-    public void setEvents(List<Event> events) {
-        this.events = events;
-    }
-
-    public void addEvent(Event newEvent) {
-        events.add(newEvent);
-    }
-
-    public void removeEvent(Event deleteEvent) {
-        events.remove(deleteEvent);
-    }
 }

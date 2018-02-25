@@ -42,9 +42,6 @@ public class ProductController {
     private UserDao userDao;
 
 
-
-
-
     @RequestMapping(value = "")
     public String index(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -58,8 +55,11 @@ public class ProductController {
 
     @RequestMapping(value = "add", method = RequestMethod.GET)
     public String displayAddForm(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+
         model.addAttribute("title", "Add a Product");
-        model.addAttribute("categories", categoryDao.findAll());
+        model.addAttribute("categories", categoryDao.findByUserId(user.getId()));
         model.addAttribute(new Product());
         return "product/add";
     }
@@ -87,6 +87,7 @@ public class ProductController {
         productDao.save(newProduct);
         Event newEvent = new Event(newProduct.getName());
         newEvent.setStart(newProduct.getExpirationDate());
+        newEvent.setUserId(Integer.toString(user.getId()));
         eventDao.save(newEvent);
         user.addProduct(newProduct);
         return "redirect:/product";
@@ -94,10 +95,13 @@ public class ProductController {
 
     @RequestMapping(value = "edit/{productId}", method = RequestMethod.GET)
     public String displayEditProduct(@PathVariable int productId, Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+
         model.addAttribute("title", "Edit " + productDao.findOne(productId).getName());
         model.addAttribute(productDao.findOne(productId));
         model.addAttribute("id", productId);
-        model.addAttribute("categories", categoryDao.findAll());
+        model.addAttribute("categories", categoryDao.findByUserId(user.getId()));
         return "product/edit";
     }
 
@@ -105,13 +109,16 @@ public class ProductController {
     public String processEditProduct(@Valid @ModelAttribute("product") Product product, Errors errors,
                                      Model model, int productId, String name, Integer month, Integer year, Integer day,
                                      Long expirationTime, String expirationFrame, int categoryId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+
         ProductValidator productValidator = new ProductValidator();
         productValidator.validate(product, errors);
         if(errors.hasErrors()) {
             model.addAttribute("title", "Edit " + productDao.findOne(productId).getName());
             model.addAttribute("product", product);
             model.addAttribute("id", productId);
-            model.addAttribute("categories", categoryDao.findAll());
+            model.addAttribute("categories", categoryDao.findByUserId(user.getId()));
             return "product/edit";
         }
 

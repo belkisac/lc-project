@@ -76,9 +76,13 @@ public class CategoryController {
 
     @RequestMapping(value = "{categoryId}/add", method = RequestMethod.GET)
     public String displayAddToCategory(Model model, @PathVariable int categoryId) {
+        //ensure user is only shown their own products
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+
         //find products that are not already in that category and remove them
         //so user doesn't see redundant information
-        List<Product> allProducts = productDao.findAll();
+        List<Product> allProducts = productDao.findByUserId(user.getId());
         List<Product> categoryProducts = categoryDao.findOne(categoryId).getProducts();
         for (Product product : categoryProducts) {
             if (allProducts.contains(product)) {
@@ -94,11 +98,14 @@ public class CategoryController {
     @RequestMapping(value = "{categoryId}/add", method = RequestMethod.POST)
     public String processAddToCategory(Model model, int categoryId, @RequestParam int [] productIds) {
         Category thisCategory = categoryDao.findOne(categoryId);
-        for (int id : productIds) {
-            thisCategory.addProduct(productDao.findOne(id));
+        if (productIds != null){
+            for (int id : productIds) {
+                thisCategory.addProduct(productDao.findOne(id));
+            }
+            categoryDao.save(thisCategory);
+            return "redirect:/category/" + thisCategory.getId();
         }
-        categoryDao.save(thisCategory);
-        return "redirect:/category/" + thisCategory.getId();
+        return "redirect:/category";
     }
 
     @RequestMapping(value = "{categoryId}/edit", method = RequestMethod.GET)

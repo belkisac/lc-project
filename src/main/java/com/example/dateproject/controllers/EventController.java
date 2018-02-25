@@ -31,7 +31,7 @@ public class EventController {
     public @ResponseBody List<Event> getEvents() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
-        return eventDao.findByUserId(user.getId());
+        return eventDao.findByUserId(Integer.toString(user.getId()));
     }
 
 }
