@@ -43,8 +43,7 @@ public class ProductController {
 
 
     @RequestMapping(value = "")
-    public String index(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    public String index(Model model, Authentication auth) {
         User user = userService.findUserByEmail(auth.getName());
 
         model.addAttribute("products", productDao.findByUserId(user.getId()));
@@ -54,8 +53,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "add", method = RequestMethod.GET)
-    public String displayAddForm(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    public String displayAddForm(Model model, Authentication auth) {
         User user = userService.findUserByEmail(auth.getName());
 
         model.addAttribute("title", "Add a Product");
@@ -69,15 +67,13 @@ public class ProductController {
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String processAddForm(@ModelAttribute @Valid Product newProduct, Errors errors,
                                  Integer categoryId, String expirationFrame,
-                                 Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                                 Model model, Authentication auth) {
         User user = userService.findUserByEmail(auth.getName());
 
         ProductValidator productValidator = new ProductValidator();
         productValidator.validate(newProduct, errors);
         if(errors.hasErrors()) {
             model.addAttribute("title", "Add a Product");
-            //TODO: add so user only sees their own category and only if they have any
             model.addAttribute("categories", categoryDao.findByUserId(user.getId()));
             return "product/add";
         }
@@ -100,8 +96,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "edit/{productId}", method = RequestMethod.GET)
-    public String displayEditProduct(@PathVariable int productId, Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    public String displayEditProduct(@PathVariable int productId, Model model, Authentication auth) {
         User user = userService.findUserByEmail(auth.getName());
 
         model.addAttribute("title", "Edit " + productDao.findOne(productId).getName());
@@ -114,8 +109,8 @@ public class ProductController {
     @RequestMapping(value = "edit/{productId}", method = RequestMethod.POST)
     public String processEditProduct(@Valid @ModelAttribute("product") Product product, Errors errors,
                                      Model model, int productId, String name, Integer month, Integer year, Integer day,
-                                     Long expirationTime, String expirationFrame, int categoryId) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                                     Long expirationTime, String expirationFrame, int categoryId,
+                                     Authentication auth) {
         User user = userService.findUserByEmail(auth.getName());
 
         ProductValidator productValidator = new ProductValidator();

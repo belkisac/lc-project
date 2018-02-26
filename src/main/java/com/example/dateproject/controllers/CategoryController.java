@@ -43,14 +43,14 @@ public class CategoryController {
     }
 
     //form to add category to db (name only, no products)
-    @RequestMapping(value = "add", method = RequestMethod.GET)
+    @RequestMapping(value = "new", method = RequestMethod.GET)
     public String displayAddCategory(Model model) {
         model.addAttribute(new Category());
         model.addAttribute("title", "Add a Category");
         return "category/add";
     }
 
-    @RequestMapping(value = "add", method = RequestMethod.POST)
+    @RequestMapping(value = "new", method = RequestMethod.POST)
     public String processAddCategory(Model model, @ModelAttribute @Valid Category newCategory,
                                      Errors errors) {
         //authenticate user and get user details
@@ -74,7 +74,8 @@ public class CategoryController {
         return "category/view";
     }
 
-    @RequestMapping(value = "{categoryId}/add", method = RequestMethod.GET)
+    //add other products to existing category
+    @RequestMapping(value = "add/{categoryId}", method = RequestMethod.GET)
     public String displayAddToCategory(Model model, @PathVariable int categoryId) {
         //ensure user is only shown their own products
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -95,7 +96,7 @@ public class CategoryController {
         return "category/add-products";
     }
 
-    @RequestMapping(value = "{categoryId}/add", method = RequestMethod.POST)
+    @RequestMapping(value = "add/{categoryId}", method = RequestMethod.POST)
     public String processAddToCategory(Model model, int categoryId, int [] productIds) {
         Category thisCategory = categoryDao.findOne(categoryId);
         if (productIds != null){
@@ -104,9 +105,11 @@ public class CategoryController {
             }
         }
         categoryDao.save(thisCategory);
-        return "redirect:/category/" + thisCategory.getId();    }
+        return "redirect:/category/" + thisCategory.getId();
+    }
 
-    @RequestMapping(value = "{categoryId}/edit", method = RequestMethod.GET)
+    //edit category--change name or remove products
+    @RequestMapping(value = "edit/{categoryId}", method = RequestMethod.GET)
     public String displayEditCategory(Model model, @PathVariable int categoryId) {
         Category thisCategory = categoryDao.findOne(categoryId);
         model.addAttribute("title", "Edit " + thisCategory.getName());
@@ -116,7 +119,7 @@ public class CategoryController {
         return "category/edit";
     }
 
-    @RequestMapping(value = "{categoryId}/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "edit/{categoryId}", method = RequestMethod.POST)
     public String processEditCategory(@ModelAttribute("category") @Valid Category category, Errors errors,
                                       int categoryId, String name, int [] productIds, Model model) {
         if(errors.hasErrors()) {

@@ -3,18 +3,22 @@
 <head th:replace="fragments :: head"></head>
 
 <body class="container">
-<h1 th:text="${title}"></h1>
+<h1>Register</h1>
 <form th:action="@{/register}" action="#" th:object="${user}" method="post" class="form-group">
     <input type="text" th:field="*{email}" th:placeholder="Email" class="form-control" />
+    <span th:errors="*{email}"></span>
     <br/>
     <input type="password" th:field="*{password}" th:placeholder="Password" class="form-control"/>
+    <span th:errors="*{password}"></span>
     <br/>
     <input type="text" th:field="*{name}" th:placeholder="Name" class="form-control"/>
+    <span th:errors="*{name}"></span>
+
     <br/>
     <input type="submit" value="Register"/>
 </form>
 
-<span th:utext="${successMessage}"><br/><a th:href="@{/logout}">Logout</a></span>
+<span th:utext="${successMessage}"></span>
 
 
 </body>

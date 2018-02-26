@@ -25,9 +25,12 @@ public class User {
     private String email;
 
     @Column(name = "password")
+    @Length(min = 5, message = "Password must be longer than 5 characters")
+    @NotEmpty(message = "Please enter a password")
     private String password;
 
     @Column(name = "name")
+    @NotEmpty(message = "Please enter your name")
     private String name;
 
     @Column(name = "active")

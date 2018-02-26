@@ -38,6 +38,6 @@ public class IndexController {
         User user = userService.findUserByEmail(auth.getName());
         model.addAttribute("testing", "Welcome, " + user.getName());
         model.addAttribute("categories", categoryDao.findByUserId(user.getId()));
-        return "index/calendar";
+        return "index/index";
     }
 }

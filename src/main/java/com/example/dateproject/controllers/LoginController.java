@@ -23,14 +23,12 @@ public class LoginController {
     private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String displayLoginForm(Model model) {
-        model.addAttribute("title", "Login");
+    public String displayLoginForm(Model model, String errors) {
         return "user/login";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String displayRegistrationForm(Model model) {
-        model.addAttribute("title", "Register");
         model.addAttribute("user", new User());
         return "user/register";
     }
@@ -47,7 +45,6 @@ public class LoginController {
         } else {
             userService.saveUser(user);
             model.addAttribute("successMessage", "Registered successfully");
-            model.addAttribute("title", "Register");
             model.addAttribute("user", new User());
         }
         return "user/register";
