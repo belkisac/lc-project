@@ -136,4 +136,11 @@ public class ProductController {
         productDao.save(editProduct);
         return "redirect:/product";
     }
+
+    @RequestMapping(value = "delete/{productId}", method = RequestMethod.GET)
+    public String deleteProduct(@PathVariable int productId) {
+        Product toDelete = productDao.findOne(productId);
+        productDao.delete(toDelete);
+        return "redirect:/product";
+    }
 }
