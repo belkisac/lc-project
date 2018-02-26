@@ -21,7 +21,8 @@
         <td th:text="${product.name}"></td>
         <td th:text="${#temporals.format(product.entryDate, 'MM-dd-yyyy')}"></td>
         <td th:text="${#temporals.format(product.expirationDate, 'MM-dd-yyyy')}"></td>
-        <td th:text="${product.category.name}"></td>
+        <td th:if="${not #lists.isEmpty(product.category)}"
+            th:text="${product.category.name}"></td>
     </tr>
 
 </table>

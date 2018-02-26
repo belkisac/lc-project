@@ -68,7 +68,7 @@ public class ProductController {
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String processAddForm(@ModelAttribute @Valid Product newProduct, Errors errors,
-                                 int categoryId, String expirationFrame,
+                                 Integer categoryId, String expirationFrame,
                                  Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
@@ -78,11 +78,13 @@ public class ProductController {
         if(errors.hasErrors()) {
             model.addAttribute("title", "Add a Product");
             //TODO: add so user only sees their own category and only if they have any
-            model.addAttribute("categories", categoryDao.findAll());
+            model.addAttribute("categories", categoryDao.findByUserId(user.getId()));
             return "product/add";
         }
-        if(!categoryDao.findByUserId(user.getId()).isEmpty()) {
+        if(categoryId != null) {
             newProduct.setCategory(categoryDao.findOne(categoryId));
+        } else {
+            newProduct.setCategory(null);
         }
         newProduct.setEntryDate(newProduct.getYear(), newProduct.getMonth(), newProduct.getDay());
         newProduct.setExpirationFrame(expirationFrame);

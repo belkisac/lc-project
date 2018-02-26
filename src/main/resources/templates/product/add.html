@@ -34,8 +34,8 @@
         </select>
     </div>
     <div class="form-group">
-        <select name="categoryId">
-            <option th:unless="${categories} and ${categories.size()}"
+        <select name="categoryId" th:unless="${categories} and ${categories.size()}">
+            <option
                     th:each="category : ${categories}"
                     th:text="${category.name}"
                     th:value="${category.id}"
