@@ -91,7 +91,7 @@ public class CategoryController {
             }
         }
         model.addAttribute("title", "Add Products to " + categoryDao.findOne(categoryId).getName());
-        model.addAttribute(categoryDao.findOne(categoryId));
+        model.addAttribute("category", categoryDao.findOne(categoryId));
         model.addAttribute("products", allProducts);
         return "category/add-products";
     }

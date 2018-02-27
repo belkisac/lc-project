@@ -2,9 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 
-<body class="container">
 
-<h1 th:text="${title}">Default Title</h1>
+<body>
+<div class="container">
+
+
+    <h1 th:text="${title}">Default Title</h1>
 
 <a th:href="@{/product/add/}">New Product</a> | <a th:href="@{/category}">Categories</a> | <a th:href="@{/home}">Home</a>
 <table class="table">
@@ -25,10 +28,15 @@
         <td th:text="${#temporals.format(product.expirationDate, 'MM-dd-yyyy')}"></td>
         <td th:if="${not #lists.isEmpty(product.category)}"
             th:text="${product.category.name}"></td>
-        <td><a th:href="@{'/product/edit/' + ${product.id}}">Edit</a> | <a th:href="@{'product/delete/' + ${product.id}}">Delete</a></td>
+        <td><a th:href="@{'/product/edit/' + ${product.id}}">Edit</a> | <a th:href="@{'/product/delete/' + ${product.id}}">Delete</a></td>
     </tr>
     </tbody>
 
 </table>
+
+</div>
+
+<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
 </body>
 </html>

@@ -6,6 +6,7 @@
           th:href="@{/webjars/fullcalendar/2.2.5/fullcalendar.css}" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 
+
     <link href="http://fullcalendar.io/js/fullcalendar-2.2.5/fullcalendar.print.css"
           th:href="@{/webjars/fullcalendar/2.2.5/fullcalendar.print.css}" rel="stylesheet" media="print" />
     <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"
@@ -49,19 +50,25 @@ $(document).ready(function(){
         #calendar {
             max-width: 700px;
         }
+
     </style>
 </head>
 
 
 <body>
 <div class="container">
-    <div class="row">
+
+
+        <div class="row">
         <div class="col-8">
             <h1 th:text="${greeting}"></h1>
         </div>
-        <div class="col-4">
-        <a th:href="@{/product}">All Products</a> | <a th:href="@{/logout}">Logout</a>
-        </div>
+            <div class="row">
+                <div class="col-md-4 offset-md-4">
+                    <p class="lead"> <a th:href="@{/product}">All Products</a> | <a th:href="@{/logout}">Logout</a>
+
+                    </p> </div>
+    </div>
     </div>
     <div class="row">
 <div class="col-sm-8">
@@ -77,8 +84,11 @@ $(document).ready(function(){
 
         <ul th:each="category : ${categories}" class="list-unstyled">
             <div class="btn-group-vertical">
-            <li><button type="button" class="btn btn-secondary btn-lg btn-block"><a th:href="@{'/category/' + ${category.id}}" th:text="${category.name}"></a></button></li>
+            <li><button type="button" class="btn btn-secondary btn-lg btn-block"></button></li>
             </div>
+            <li class="list-group-item d-flex justify-content-between align-items-center"><a th:href="@{'/category/' + ${category.id}}" th:text="${category.name}"></a>
+                <span class="badge badge-primary badge-pill" th:text="${#lists.size(category)}"></span>
+            </li>
         </ul>
 
     </table>

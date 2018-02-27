@@ -56,7 +56,6 @@ public class ProductController {
     public String displayAddForm(Model model, Authentication auth) {
         User user = userService.findUserByEmail(auth.getName());
 
-        model.addAttribute("title", "Add a Product");
         if(!categoryDao.findByUserId(user.getId()).isEmpty()) {
             model.addAttribute("categories", categoryDao.findByUserId(user.getId()));
         }
@@ -73,7 +72,7 @@ public class ProductController {
         ProductValidator productValidator = new ProductValidator();
         productValidator.validate(newProduct, errors);
         if(errors.hasErrors()) {
-            model.addAttribute("title", "Add a Product");
+            //TODO: make it so it only shows if categories are present
             model.addAttribute("categories", categoryDao.findByUserId(user.getId()));
             return "product/add";
         }
@@ -142,5 +141,10 @@ public class ProductController {
         Product toDelete = productDao.findOne(productId);
         productDao.delete(toDelete);
         return "redirect:/product";
+    }
+
+    @RequestMapping(value = "test")
+    public String test(Model model) {
+        return "product/test";
     }
 }
