@@ -145,9 +145,4 @@ public class ProductController {
         eventDao.delete(eventDelete);
         return "redirect:/product";
     }
-
-    @RequestMapping(value = "test")
-    public String test(Model model) {
-        return "product/test";
-    }
 }
