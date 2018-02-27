@@ -2,9 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="fragments :: head"></head>
 
-<body class="container">
-<h1 th:text="${title}"></h1>
-
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-12"></div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+<h1>Add A Category</h1>
+        </div>
+    </div>
+<div class="row">
+<div class="col-md-6">
 <form method="post" th:object="${category}">
     <div class="form-group">
         <label th:for="name">Name</label>
@@ -13,6 +22,19 @@
     </div>
     <input type="submit" value="Add Category" />
 </form>
+</div>
+    <div class="col-md-1"></div>
+    <div class="col-md-5">
+        <h3>Quick Links</h3>
+        <div class="list-group" style="border-color: #472627;">
+            <div class="list-group-item list-group-item-action active" style="background-color:#472627; border-color:#472627;"><a th:href="@{/home}">Home</a></div>
+            <div class="list-group-item list-group-item-action"><a th:href="@{/category}">Categories</a></div>
+            <div class="list-group-item list-group-item-action"><a th:href="@{/product/add/}">Add a Product</a></div>
+            <div class="list-group-item list-group-item-action"><a th:href="@{/product}">All Products</a></div>
+        </div>
+</div>
 
+</div>
+</div>
 </body>
 </html>

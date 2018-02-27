@@ -3,22 +3,26 @@
 <head th:replace="fragments :: head"></head>
 
 <body class="container">
-<h1 th:text="${title}"></h1>
+<h1 th:text="${title}">Default Title</h1>
 <p th:unless="${products} and ${products.size()}">No products</p>
-<p><a th:href="@{'/category/add/' + ${category.id}}">Add Product</a></p>
+<p><a th:href="@{'/category/edit/' + ${categoryId}}">Edit Category</a></p>
+<p><a th:href="@{'/category/add/' + ${categoryId}}">Add Existing Product</a> | <a th:href="@{/product/add/}">Add New Product</a> | <a th:href="@{/home}">Home</a></p>
 
 <table class="table">
 
     <tr>
-        <th>Name</th>
-        <th>Entry Date</th>
-        <th>Expiration Date</th>
+        <th class="h4">Name</th>
+        <th class="h4">Entry Date</th>
+        <th class="h4">Expiration Date</th>
+        <th class="h4">Actions</th>
     </tr>
 
     <tr th:each="product : ${products}">
         <td th:text="${product.name}"></td>
         <td th:text="${#temporals.format(product.entryDate, 'MM-dd-yyyy')}"></td>
         <td th:text="${#temporals.format(product.expirationDate, 'MM-dd-yyyy')}"></td>
+        <td><a th:href="@{'/product/edit/' + ${product.id}}">Edit</a> | <a th:href="@{'/product/delete/' + ${product.id}}">Delete</a></td>
+
     </tr>
 
 </table>

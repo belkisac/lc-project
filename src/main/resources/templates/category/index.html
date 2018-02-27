@@ -6,26 +6,23 @@
 <h1 th:text="${title}">Default Title</h1>
 
 <p th:unless="${categories} and ${categories.size()}">No categories</p>
-
-<!--<table class="table">
+<a th:href="@{/product/new/}">New Category</a> | <a th:href="@{/product}">All Products</a> | <a th:href="@{/home}">Home</a>
+<br/>
+<br/>
+<table class="table">
 
     <tr>
-        <th>Name</th>
-        <th>Products</th>
+        <th class="h4">Name</th>
+        <th class="h4">Actions</th>
     </tr>
 
     <tr th:each="category : ${categories}">
         <td th:text="${category.name}"></td>
-        <td th:each="product : ${category.products}" th:text="${product.name}"></td>
+        <td><a th:href="@{'/category/' + ${category.id}}">View</a> | <a th:href="@{'/category/edit/' + ${category.id}}">Edit</a></td>
     </tr>
 
-</table>-->
-
-<table class="table">
-    <tr>
-        <th th:each="category : ${categories}" th:text="${category.name}"></th>
-    </tr>
 </table>
+
 
 </body>
 </html>

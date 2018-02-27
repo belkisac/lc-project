@@ -5,19 +5,17 @@
 
 <body>
 <div class="container">
-
-
     <h1 th:text="${title}">Default Title</h1>
 
 <a th:href="@{/product/add/}">New Product</a> | <a th:href="@{/category}">Categories</a> | <a th:href="@{/home}">Home</a>
 <table class="table">
     <thead class="thead-light">
     <tr>
-        <th>Name</th>
-        <th>Entry Date</th>
-        <th>Expiration Date</th>
-        <th>Category</th>
-        <th>Actions</th>
+        <th class="h4">Name</th>
+        <th class="h4">Entry Date</th>
+        <th class="h4">Expiration Date</th>
+        <th class="h4">Category</th>
+        <th class="h4">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -26,13 +24,14 @@
         <td th:text="${product.name}"></td>
         <td th:text="${#temporals.format(product.entryDate, 'MM-dd-yyyy')}"></td>
         <td th:text="${#temporals.format(product.expirationDate, 'MM-dd-yyyy')}"></td>
-        <td th:if="${not #lists.isEmpty(product.category)}"
-            th:text="${product.category.name}"></td>
+        <td th:if="${not #lists.isEmpty(product.category)}">
+            <a th:href="@{'/category/' + ${product.category.id}}" th:text="${product.category.name}"></a></td>
         <td><a th:href="@{'/product/edit/' + ${product.id}}">Edit</a> | <a th:href="@{'/product/delete/' + ${product.id}}">Delete</a></td>
     </tr>
     </tbody>
 
 </table>
+
 
 </div>
 

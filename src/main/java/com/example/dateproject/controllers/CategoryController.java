@@ -46,7 +46,6 @@ public class CategoryController {
     @RequestMapping(value = "new", method = RequestMethod.GET)
     public String displayAddCategory(Model model) {
         model.addAttribute(new Category());
-        model.addAttribute("title", "Add a Category");
         return "category/add";
     }
 
@@ -57,13 +56,12 @@ public class CategoryController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
         if(errors.hasErrors()) {
-            model.addAttribute("title", "Add a Category");
             return "category/add";
         }
         newCategory.setUser(user);
         user.addCategory(newCategory);
         categoryDao.save(newCategory);
-        return "redirect:";
+        return "redirect:/category/" + newCategory.getId();
     }
 
     //view categories and all products in it
@@ -91,7 +89,7 @@ public class CategoryController {
             }
         }
         model.addAttribute("title", "Add Products to " + categoryDao.findOne(categoryId).getName());
-        model.addAttribute("category", categoryDao.findOne(categoryId));
+        model.addAttribute(categoryDao.findOne(categoryId));
         model.addAttribute("products", allProducts);
         return "category/add-products";
     }
@@ -136,7 +134,8 @@ public class CategoryController {
         if(productIds != null) {
             for (int id : productIds) {
                 editedCat.removeProduct(productDao.findOne(id));
-                productDao.delete(id);
+                Product removeCategory = productDao.findOne(id);
+                removeCategory.setCategory(null);
             }
         }
 

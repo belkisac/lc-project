@@ -71,6 +71,7 @@ public class ProductController {
 
         ProductValidator productValidator = new ProductValidator();
         productValidator.validate(newProduct, errors);
+
         if(errors.hasErrors()) {
             //TODO: make it so it only shows if categories are present
             model.addAttribute("categories", categoryDao.findByUserId(user.getId()));
@@ -137,9 +138,11 @@ public class ProductController {
     }
 
     @RequestMapping(value = "delete/{productId}", method = RequestMethod.GET)
-    public String deleteProduct(@PathVariable int productId) {
+    public String deleteProduct(@PathVariable int productId, Authentication auth) {
         Product toDelete = productDao.findOne(productId);
         productDao.delete(toDelete);
+        Event eventDelete = eventDao.findOne(productId);
+        eventDao.delete(eventDelete);
         return "redirect:/product";
     }
 

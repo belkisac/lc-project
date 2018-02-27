@@ -20,18 +20,21 @@
         <label for="name">Name</label>
         <input th:field="*{name}" id="name" class="form-control"/>
         <span th:errors="*{name}"></span>
-    <span> <label>Start Date</label> </span>
 </div>
+    <label>Start Date</label>
+
     <div class="form-group row">
-<div class="col-12">
+
+        <div class="col-12">
+
     <div class="col-xs-2">
-    <input th:field="*{month}" class="form-control" placeholder="MM"/>
+    <input th:field="*{month}" class="form-control" placeholder="MM" maxlength="2"/>
     </div>
     <div class="col-xs-2">
-        <input th:field="*{day}" class="form-control" placeholder="DD"/>
+        <input th:field="*{day}" class="form-control" placeholder="DD" maxlength="2"/>
     </div>
     <div class="col-xs-2">
-        <input th:field="*{year}" class="form-control" style="" placeholder="YYYY"/>
+        <input th:field="*{year}" class="form-control" style="" placeholder="YYYY" maxlength="4"/>
     </div>
     </div>
             <span th:errors="*{month}"></span>
@@ -69,10 +72,10 @@
         <div class="col-md-1"></div>
         <div class="col-md-5">
             <h3>Quick Links</h3>
-            <div class="list-group">
-                <div class="list-group-item list-group-item-action active"><a th:href="@{/home}">Home</a></div>
+            <div class="list-group" style="border-color: #472627;">
+                <div class="list-group-item list-group-item-action active" style="background-color:#472627; border-color:#472627;"><a th:href="@{/home}">Home</a></div>
                 <div class="list-group-item list-group-item-action"><a th:href="@{/category}">Categories</a></div>
-                <div class="list-group-item list-group-item-action"><a th:href="@{/category/add}">Add a Category</a></div>
+                <div class="list-group-item list-group-item-action"><a th:href="@{/category/new/}">Add a Category</a></div>
                 <div class="list-group-item list-group-item-action"><a th:href="@{/product}">All Products</a></div>
             </div>
         </div>

@@ -37,7 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers("/").permitAll()
                     .antMatchers("/login").permitAll()
                     .antMatchers("/register").permitAll()
-                    .antMatchers("/category/edit/{categoryId}/**", "/category/add/{categoryId}")
+                    .antMatchers("/category/edit/{categoryId}/**", "/category/add/{categoryId}/**")
                         .access("@webSecurity.checkCategoryId(authentication,#categoryId)")
                     .antMatchers("/product/edit/{productId}/**")
                         .access("@webSecurity.checkProductId(authentication,#productId)")
