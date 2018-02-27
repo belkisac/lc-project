@@ -14,8 +14,9 @@
         <th class="h4">Name</th>
         <th class="h4">Entry Date</th>
         <th class="h4">Expiration Date</th>
-        <th class="h4">Category</th>
         <th class="h4">Actions</th>
+        <th class="h4">Category</th>
+
     </tr>
     </thead>
     <tbody>
@@ -24,9 +25,9 @@
         <td th:text="${product.name}"></td>
         <td th:text="${#temporals.format(product.entryDate, 'MM-dd-yyyy')}"></td>
         <td th:text="${#temporals.format(product.expirationDate, 'MM-dd-yyyy')}"></td>
+        <td><a th:href="@{'/product/edit/' + ${product.id}}">Edit</a> | <a th:href="@{'/product/delete/' + ${product.id}}">Delete</a></td>
         <td th:if="${not #lists.isEmpty(product.category)}">
             <a th:href="@{'/category/' + ${product.category.id}}" th:text="${product.category.name}"></a></td>
-        <td><a th:href="@{'/product/edit/' + ${product.id}}">Edit</a> | <a th:href="@{'/product/delete/' + ${product.id}}">Delete</a></td>
     </tr>
     </tbody>
 

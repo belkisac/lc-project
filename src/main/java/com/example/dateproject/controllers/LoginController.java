@@ -22,8 +22,13 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String mainPage(Model model) {
+        return "user/index";
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String displayLoginForm(Model model, String errors) {
+    public String displayLoginForm(Model model) {
         return "user/login";
     }
 
