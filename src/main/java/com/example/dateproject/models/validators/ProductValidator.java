@@ -22,10 +22,7 @@ public class ProductValidator implements Validator {
 
     @Override
     public void validate(Object obj, Errors errors) {
-        ValidationUtils.rejectIfEmpty(errors, "name", "name.empty");
         Product product = (Product) obj;
-        //TODO: see if adding if statement to check null product will make submitting a blank form possible
-        if(product != null) {
             if (product.getMonth() != null && product.getDay() != null && product.getYear() != null) {
                 if (product.getMonth() == 1 || product.getMonth() == 3 || product.getMonth() == 5 || product.getMonth() == 7 || product.getMonth() == 8 || product.getMonth() == 10 || product.getMonth() == 12) {
                     if (product.getDay() > 31) {
@@ -46,7 +43,7 @@ public class ProductValidator implements Validator {
                     }
                 }
             }
-        }
+
     }
 
 }

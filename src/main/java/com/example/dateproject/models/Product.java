@@ -1,11 +1,13 @@
 package com.example.dateproject.models;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @Entity
@@ -17,7 +19,7 @@ public class Product {
     private int id;
 
     @NotNull
-    @NotBlank(message = "Name cannot be empty")
+    @Size(min = 1, message = "Field cannot be empty")
     private String name;
 
     @NotNull(message = "Year cannot be empty")

@@ -53,12 +53,13 @@ public class ProductController {
     }
 
     @RequestMapping(value = "add", method = RequestMethod.GET)
-    public String displayAddForm(Model model, Authentication auth) {
+    public String displayAddForm(Model model, Authentication auth, HttpServletRequest request) {
         User user = userService.findUserByEmail(auth.getName());
 
         if(!categoryDao.findByUserId(user.getId()).isEmpty()) {
             model.addAttribute("categories", categoryDao.findByUserId(user.getId()));
         }
+        model.addAttribute("referer", request.getHeader("Referer"));
         model.addAttribute(new Product());
         return "product/add";
     }
@@ -66,7 +67,7 @@ public class ProductController {
     @RequestMapping(value = "add", method = RequestMethod.POST)
     public String processAddForm(@ModelAttribute @Valid Product newProduct, Errors errors,
                                  Integer categoryId, String expirationFrame,
-                                 Model model, Authentication auth) {
+                                 Model model, Authentication auth, String referer) {
         User user = userService.findUserByEmail(auth.getName());
 
         ProductValidator productValidator = new ProductValidator();
@@ -93,17 +94,20 @@ public class ProductController {
         newEvent.setUserId(Integer.toString(user.getId()));
         eventDao.save(newEvent);
         user.addProduct(newProduct);
-        return "redirect:/product";
+
+        return "redirect:" + referer;
     }
 
     @RequestMapping(value = "edit/{productId}", method = RequestMethod.GET)
-    public String displayEditProduct(@PathVariable int productId, Model model, Authentication auth) {
+    public String displayEditProduct(@PathVariable int productId, Model model, Authentication auth,
+                                    HttpServletRequest request) {
         User user = userService.findUserByEmail(auth.getName());
 
         model.addAttribute("title", "Edit " + productDao.findOne(productId).getName());
         model.addAttribute(productDao.findOne(productId));
         model.addAttribute("id", productId);
         model.addAttribute("categories", categoryDao.findByUserId(user.getId()));
+        model.addAttribute("referer", request.getHeader("Referer"));
         return "product/edit";
     }
 
@@ -111,7 +115,8 @@ public class ProductController {
     public String processEditProduct(@Valid @ModelAttribute("product") Product product, Errors errors,
                                      Model model, int productId, String name, Integer month, Integer year, Integer day,
                                      Long expirationTime, String expirationFrame, int categoryId,
-                                     Authentication auth) {
+                                     Authentication auth, String referer) {
+
         User user = userService.findUserByEmail(auth.getName());
 
         ProductValidator productValidator = new ProductValidator();
@@ -135,7 +140,8 @@ public class ProductController {
         editProduct.setExpirationDate(editProduct.getEntryDate(), expirationFrame, expirationTime);
         editProduct.setCategory(categoryDao.findOne(categoryId));
         productDao.save(editProduct);
-        return "redirect:/product";
+
+        return "redirect:" + referer;
     }
 
     @RequestMapping(value = "delete/{productId}", method = RequestMethod.GET)
