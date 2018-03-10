@@ -50,7 +50,7 @@ $(document).ready(function(){
         }
 
         #calendar {
-            max-width: 600px;
+            max-width: 650px;
         }
         a {
         color: #A76571;
@@ -69,24 +69,18 @@ $(document).ready(function(){
 
 <body>
 
-<div class="container">
-        <div class="row">
-        <div class="col-12">
-            <h1 th:text="${greeting}"></h1>
-        </div>
-            <div class="row">
-                <div class="col-md-4 offset-md-4">
-                    <p class="lead"> <a th:href="@{/product}">All Products</a> | <a th:href="@{/logout}">Logout</a>
+<div class="container" style="max-width:1024px; margin-top: 0px;">
+        <p class="h1" style="margin-top:0px;" th:text="${greeting}"></p>
+            <br/>
+            <p class="lead"> <a th:href="@{/product}">All Products</a> | <a th:href="@{/logout}">Logout</a>
 
-                    </p> </div>
-    </div>
-    </div>
+                    </p>
     <div class="row">
-<div class="col-sm-7">
+<div class="col-sm-8">
 
         <div id='calendar' th:id="calendar"></div>
 </div>
-<div class="col-sm-4">
+<div class="col-sm-3">
     <table class="table">
 
 

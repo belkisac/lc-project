@@ -17,25 +17,26 @@ public class Product {
     private int id;
 
     @NotNull
-    @NotBlank(message = "Field cannot be empty")
+    @NotBlank(message = "Name cannot be empty")
     private String name;
 
-    @NotNull(message = "Field cannot be empty")
+    @NotNull(message = "Year cannot be empty")
     @Min(value = 1, message = "Please enter a valid year")
     private Integer year;
 
-    @NotNull(message = "Field cannot be empty")
+    @NotNull(message = "Month cannot be empty")
     @Min(value = 1, message = "Value must be between 1-12")
     @Max(value = 12, message = "Value must be between 1-12")
     private Integer month;
 
-    @NotNull(message = "Field cannot be empty")
-    @Min(value = 1, message = "Value must be greater than 1")
+    @NotNull(message = "Day cannot be empty")
+    @Min(value = 1, message = "Value cannot be less than 1")
     private Integer day;
 
     private LocalDate entryDate;
 
     @NotNull(message = "Field cannot be empty")
+    @Min(value = 1, message = "Value must be at least 1")
     private Long expirationTime;
 
     private String expirationFrame;

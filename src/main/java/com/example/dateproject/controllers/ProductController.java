@@ -9,6 +9,7 @@ import com.example.dateproject.models.data.ProductDao;
 import com.example.dateproject.models.data.UserDao;
 import com.example.dateproject.models.validators.ProductValidator;
 import com.example.dateproject.service.UserService;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,7 +42,6 @@ public class ProductController {
     @Autowired
     private UserDao userDao;
 
-
     @RequestMapping(value = "")
     public String index(Model model, Authentication auth) {
         User user = userService.findUserByEmail(auth.getName());
@@ -73,8 +73,9 @@ public class ProductController {
         productValidator.validate(newProduct, errors);
 
         if(errors.hasErrors()) {
-            //TODO: make it so it only shows if categories are present
-            model.addAttribute("categories", categoryDao.findByUserId(user.getId()));
+            if(!categoryDao.findByUserId(user.getId()).isEmpty()) {
+                model.addAttribute("categories", categoryDao.findByUserId(user.getId()));
+            }
             return "product/add";
         }
         if(categoryId != null) {
@@ -138,11 +139,12 @@ public class ProductController {
     }
 
     @RequestMapping(value = "delete/{productId}", method = RequestMethod.GET)
-    public String deleteProduct(@PathVariable int productId, Authentication auth) {
+    public String deleteProduct(@PathVariable int productId, HttpServletRequest request, Authentication auth) {
         Product toDelete = productDao.findOne(productId);
         productDao.delete(toDelete);
         Event eventDelete = eventDao.findOne(productId);
         eventDao.delete(eventDelete);
-        return "redirect:/product";
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
     }
 }

@@ -39,7 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers("/register").permitAll()
                     .antMatchers("/category/edit/{categoryId}/**", "/category/add/{categoryId}/**")
                         .access("@webSecurity.checkCategoryId(authentication,#categoryId)")
-                    .antMatchers("/product/edit/{productId}/**")
+                    .antMatchers("/product/edit/{productId}/**", "/product/delete/{productId}")
                         .access("@webSecurity.checkProductId(authentication,#productId)")
                     .antMatchers("/home/**", "/product/**", "/category/**").hasAuthority("USER").anyRequest()
                     .authenticated().and().csrf().disable().formLogin()
@@ -57,7 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/resources/**", "/static/**", "/images/**", "/css/**", "/js/**", "/webjars/**");
+                .antMatchers("/resources/**", "/static/**", "/images/**", "/css/**", "/js/**");
     }
 
     @Bean

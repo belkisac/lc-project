@@ -24,22 +24,26 @@
     <label class="h4">Start Date</label>
 
     <div class="form-group row">
-
         <div class="col-12">
 
     <div class="col-xs-2">
-        <span th:errors="*{month}"></span>
     <input th:field="*{month}" class="form-control" placeholder="MM" maxlength="2"/>
+        <span th:errors="*{month}"></span>
+
     </div>
     <div class="col-xs-2">
-        <span th:errors="*{day}"></span>
 
         <input th:field="*{day}" class="form-control" placeholder="DD" maxlength="2"/>
+        <span th:errors="*{day}"></span>
+
     </div>
-    <div class="col-xs-2">
-        <span th:errors="*{year}"></span>
+    <div class="col-xs-3">
 
         <input th:field="*{year}" class="form-control" style="" placeholder="YYYY" maxlength="4"/>
+        <span th:errors="*{year}"></span>
+
+
+
     </div>
     </div>
     </div>

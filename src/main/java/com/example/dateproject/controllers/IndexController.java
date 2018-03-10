@@ -20,7 +20,6 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping(value = "/home")
 public class IndexController {
 
     @Autowired
@@ -32,9 +31,8 @@ public class IndexController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public String index(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public String index(Model model, Authentication auth) {
         User user = userService.findUserByEmail(auth.getName());
         model.addAttribute("greeting", "Welcome, " + user.getName());
         model.addAttribute("categories", categoryDao.findByUserId(user.getId()));
